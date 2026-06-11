@@ -77,7 +77,7 @@
 
                                 {{-- Aksi --}}
                                 <td class="align-middle text-center">
-                                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                    <div class="d-flex justify-content-center flex-wrap" style="gap: 8px;">
                                         {{-- Detail selalu ada --}}
                                         <a href="{{ route('operator.spj.show', $spj) }}"
                                            class="btn btn-sm btn-outline-info"
