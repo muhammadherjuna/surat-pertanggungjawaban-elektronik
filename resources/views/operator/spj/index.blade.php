@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-between align-items-center">
         <h1>Daftar SPJ Saya</h1>
         <a href="{{ route('operator.spj.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus me-1"></i> Buat SPJ Baru
+            <i class="fas fa-plus mr-2"></i> Buat SPJ Baru
         </a>
     </div>
 @stop
@@ -16,12 +16,12 @@
 
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show auto-close" role="alert">
-            <i class="fas fa-check-circle me-1"></i> {{ session('success') }}
+            <i class="fas fa-check-circle mr-2"></i> {{ session('success') }}
         </div>
     @endif
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show auto-close" role="alert">
-            <i class="fas fa-exclamation-circle me-1"></i> {{ session('error') }}
+            <i class="fas fa-exclamation-circle mr-2"></i> {{ session('error') }}
         </div>
     @endif
 
@@ -61,17 +61,17 @@
                                 {{-- Status --}}
                                 <td class="text-center align-middle">
                                     @if($spj->is_rejected)
-                                        <span class="badge bg-danger"><i class="fas fa-redo me-1"></i>Perlu Revisi</span>
+                                        <span class="badge bg-danger"><i class="fas fa-redo mr-2"></i>Perlu Revisi</span>
                                     @elseif($spj->status_level == 0)
-                                        <span class="badge bg-secondary"><i class="fas fa-file-alt me-1"></i>Draft</span>
+                                        <span class="badge bg-secondary"><i class="fas fa-file-alt mr-2"></i>Draft</span>
                                     @elseif($spj->status_level == 1)
-                                        <span class="badge bg-info text-dark"><i class="fas fa-clock me-1"></i>Menunggu Kabid</span>
+                                        <span class="badge bg-info text-dark"><i class="fas fa-clock mr-2"></i>Menunggu Kabid</span>
                                     @elseif($spj->status_level == 2)
-                                        <span class="badge bg-primary"><i class="fas fa-check me-1"></i>Disetujui Kabid</span>
+                                        <span class="badge bg-primary"><i class="fas fa-check mr-2"></i>Disetujui Kabid</span>
                                     @elseif($spj->status_level == 3)
-                                        <span class="badge bg-warning text-dark"><i class="fas fa-check-double me-1"></i>Disetujui Sekdin</span>
+                                        <span class="badge bg-warning text-dark"><i class="fas fa-check-double mr-2"></i>Disetujui Sekdin</span>
                                     @elseif($spj->status_level == 4)
-                                        <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Terverifikasi</span>
+                                        <span class="badge bg-success"><i class="fas fa-check-circle mr-2"></i>Terverifikasi</span>
                                     @endif
                                 </td>
 
@@ -127,7 +127,7 @@
                                     <i class="fas fa-folder-open fa-2x mb-2 d-block"></i>
                                     Belum ada SPJ yang dibuat.<br>
                                     <a href="{{ route('operator.spj.create') }}" class="btn btn-primary btn-sm mt-2">
-                                        <i class="fas fa-plus me-1"></i> Buat SPJ Pertama
+                                        <i class="fas fa-plus mr-2"></i> Buat SPJ Pertama
                                     </a>
                                 </td>
                             </tr>

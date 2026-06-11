@@ -14,12 +14,12 @@
 
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show auto-close" role="alert">
-            <i class="fas fa-check-circle me-1"></i> {{ session('success') }}
+            <i class="fas fa-check-circle mr-2"></i> {{ session('success') }}
         </div>
     @endif
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show auto-close" role="alert">
-            <i class="fas fa-exclamation-circle me-1"></i> {{ session('error') }}
+            <i class="fas fa-exclamation-circle mr-2"></i> {{ session('error') }}
         </div>
     @endif
 
@@ -55,17 +55,17 @@
                             <th>Status</th>
                             <td>: 
                                 @if($spj->is_rejected)
-                                    <span class="badge bg-danger"><i class="fas fa-redo me-1"></i>Perlu Revisi</span>
+                                    <span class="badge bg-danger"><i class="fas fa-redo mr-2"></i>Perlu Revisi</span>
                                 @elseif($spj->status_level == 0)
-                                    <span class="badge bg-secondary"><i class="fas fa-file-alt me-1"></i>Draft</span>
+                                    <span class="badge bg-secondary"><i class="fas fa-file-alt mr-2"></i>Draft</span>
                                 @elseif($spj->status_level == 1)
-                                    <span class="badge bg-info text-dark"><i class="fas fa-clock me-1"></i>Menunggu Kabid</span>
+                                    <span class="badge bg-info text-dark"><i class="fas fa-clock mr-2"></i>Menunggu Kabid</span>
                                 @elseif($spj->status_level == 2)
-                                    <span class="badge bg-primary"><i class="fas fa-check me-1"></i>Disetujui Kabid</span>
+                                    <span class="badge bg-primary"><i class="fas fa-check mr-2"></i>Disetujui Kabid</span>
                                 @elseif($spj->status_level == 3)
-                                    <span class="badge bg-warning text-dark"><i class="fas fa-check-double me-1"></i>Disetujui Sekdin</span>
+                                    <span class="badge bg-warning text-dark"><i class="fas fa-check-double mr-2"></i>Disetujui Sekdin</span>
                                 @elseif($spj->status_level == 4)
-                                    <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Terverifikasi</span>
+                                    <span class="badge bg-success"><i class="fas fa-check-circle mr-2"></i>Terverifikasi</span>
                                 @endif
                             </td>
                         </tr>
@@ -96,9 +96,9 @@
                                         <h6 class="mb-1 fw-bold">{{ $dp->nama_dokumen }}</h6>
                                         <div class="mt-1">
                                             @if($uploadedDokumen)
-                                                <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Sudah Diunggah</span>
+                                                <span class="badge bg-success"><i class="fas fa-check-circle mr-2"></i>Sudah Diunggah</span>
                                             @else
-                                                <span class="badge bg-secondary"><i class="fas fa-clock me-1"></i>Belum Diunggah</span>
+                                                <span class="badge bg-secondary"><i class="fas fa-clock mr-2"></i>Belum Diunggah</span>
                                             @endif
                                         </div>
                                         
@@ -116,7 +116,7 @@
                                             <div class="d-flex justify-content-lg-end justify-content-start gap-2 flex-wrap">
                                                 <!-- Tombol Lihat -->
                                                 <a href="{{ asset('storage/' . $uploadedDokumen->file_path) }}" target="_blank" class="btn btn-sm btn-info text-white shadow-sm" title="Lihat Dokumen">
-                                                    <i class="fas fa-eye me-1"></i> Lihat
+                                                    <i class="fas fa-eye mr-2"></i> Lihat
                                                 </a>
 
                                                 @if($spj->status_level == 0 || $spj->is_rejected)
@@ -126,7 +126,7 @@
                                                         <input type="hidden" name="dokumen_pendukung_id" value="{{ $dp->id }}">
                                                         <input type="file" name="file" id="file_update_{{ $dp->id }}" style="display: none;" required onchange="this.form.requestSubmit();">
                                                         <button type="button" class="btn btn-sm btn-warning shadow-sm" onclick="document.getElementById('file_update_{{ $dp->id }}').click();" title="Ubah Dokumen">
-                                                            <i class="fas fa-edit me-1"></i> Ubah
+                                                            <i class="fas fa-edit mr-2"></i> Ubah
                                                         </button>
                                                     </form>
 
@@ -135,7 +135,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-sm btn-danger shadow-sm" title="Hapus Dokumen">
-                                                            <i class="fas fa-trash me-1"></i> Hapus
+                                                            <i class="fas fa-trash mr-2"></i> Hapus
                                                         </button>
                                                     </form>
                                                 @else
@@ -174,7 +174,7 @@
                                                     
                                                     <!-- Tombol Unggah -->
                                                     <button type="submit" class="btn btn-sm btn-primary shadow-sm" title="Unggah Dokumen">
-                                                        <i class="fas fa-upload me-1"></i> Unggah
+                                                        <i class="fas fa-upload mr-2"></i> Unggah
                                                     </button>
                                                 </form>
                                             @else
