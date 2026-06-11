@@ -13,6 +13,7 @@
         <div class="card-body">
             <form action="{{ route('operator.spj.store') }}" method="POST">
                 @csrf
+                
                 <div class="mb-3">
                     <label class="form-label">Jenis SPJ</label>
                     <select name="jenis_spj_id" class="form-select @error('jenis_spj_id') is-invalid @enderror" required>

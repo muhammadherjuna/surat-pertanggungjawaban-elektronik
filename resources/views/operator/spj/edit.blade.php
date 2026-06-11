@@ -14,6 +14,7 @@
             <form action="{{ route('operator.spj.update', $spj) }}" method="POST">
                 @csrf
                 @method('PUT')
+                
                 <div class="mb-3">
                     <label class="form-label">Jenis SPJ</label>
                     <select name="jenis_spj_id" class="form-select @error('jenis_spj_id') is-invalid @enderror" required>
