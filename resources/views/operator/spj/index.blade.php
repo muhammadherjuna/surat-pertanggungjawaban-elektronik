@@ -28,23 +28,22 @@
     <div class="card shadow-sm">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle mb-0">
+                <table class="table table-bordered table-hover align-top mb-0">
                     <thead class="table-light">
                         <tr>
-                            <th style="width: 4%;" class="text-center">#</th>
-                            <th style="width: 22%;">Deskripsi</th>
-                            <th style="width: 14%;">Jenis SPJ</th>
-                            <th style="width: 13%;" class="text-end">Nominal</th>
-                            <th style="width: 13%;" class="text-center">Tipe / No</th>
-                            <th style="width: 15%;" class="text-center">Status</th>
-                            <th style="width: 19%;" class="text-center">Aksi</th>
+                            <th style="width: 4%;" class="text-center align-middle">No</th>
+                            <th style="width: 28%;">Deskripsi</th>
+                            <th style="width: 18%;">Jenis SPJ</th>
+                            <th style="width: 15%;" class="text-end">Nominal</th>
+                            <th style="width: 17%;" class="text-center">Status</th>
+                            <th style="width: 18%;" class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($spjs as $index => $spj)
                             <tr>
                                 {{-- Nomor Urut --}}
-                                <td class="text-center text-muted">{{ $index + 1 }}</td>
+                                <td class="text-center text-muted align-middle">{{ $index + 1 }}</td>
 
                                 {{-- Deskripsi --}}
                                 <td>
@@ -52,23 +51,15 @@
                                 </td>
 
                                 {{-- Jenis SPJ --}}
-                                <td class="small">{{ $spj->jenisSpj->nama_jenis }}</td>
+                                <td>{{ $spj->jenisSpj->nama_jenis }}</td>
 
                                 {{-- Nominal: rata kanan --}}
-                                <td class="text-end font-monospace">
+                                <td class="text-end font-monospace align-middle">
                                     Rp {{ number_format($spj->nominal, 0, ',', '.') }}
                                 </td>
 
-                                {{-- Tipe / No --}}
-                                <td class="text-center">
-                                    <span class="badge bg-secondary">{{ $spj->filter_tipe }}</span>
-                                    @if($spj->filter_no)
-                                        <span class="text-muted small">/ {{ $spj->filter_no }}</span>
-                                    @endif
-                                </td>
-
                                 {{-- Status --}}
-                                <td class="text-center">
+                                <td class="text-center align-middle">
                                     @if($spj->is_rejected)
                                         <span class="badge bg-danger"><i class="fas fa-redo me-1"></i>Perlu Revisi</span>
                                     @elseif($spj->status_level == 0)
@@ -85,8 +76,8 @@
                                 </td>
 
                                 {{-- Aksi --}}
-                                <td>
-                                    <div class="d-flex flex-wrap gap-1 justify-content-center">
+                                <td class="align-middle">
+                                    <div class="btn-group" role="group">
                                         {{-- Detail selalu ada --}}
                                         <a href="{{ route('operator.spj.show', $spj) }}"
                                            class="btn btn-sm btn-outline-info"
@@ -132,7 +123,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center py-5 text-muted">
+                                <td colspan="6" class="text-center py-5 text-muted">
                                     <i class="fas fa-folder-open fa-2x mb-2 d-block"></i>
                                     Belum ada SPJ yang dibuat.<br>
                                     <a href="{{ route('operator.spj.create') }}" class="btn btn-primary btn-sm mt-2">
