@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="row mb-3">
-                    <div class="col-md-6">
+                    <div class="col-sm-4 col-md-3">
                         <label class="form-label">Filter Tipe</label>
                         <select name="filter_tipe" id="filter_tipe" class="form-select @error('filter_tipe') is-invalid @enderror" required>
                             <option value="GU" {{ old('filter_tipe') == 'GU' ? 'selected' : '' }}>GU</option>
@@ -40,7 +40,7 @@
                         </select>
                         @error('filter_tipe') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
-                    <div class="col-md-6" id="filter_no_container">
+                    <div class="col-sm-4 col-md-3" id="filter_no_container">
                         <label class="form-label">Filter No</label>
                         <select name="filter_no" id="filter_no" class="form-select @error('filter_no') is-invalid @enderror">
                             <option value="" disabled {{ old('filter_no') ? '' : 'selected' }}>-- Pilih Nomor --</option>
