@@ -46,15 +46,15 @@
                                 <td class="text-center text-muted align-middle">{{ $index + 1 }}</td>
 
                                 {{-- Deskripsi --}}
-                                <td>
+                                <td style="text-align: justify;">
                                     <span class="fw-semibold">{{ $spj->deskripsi }}</span>
                                 </td>
 
                                 {{-- Jenis SPJ --}}
-                                <td>{{ $spj->jenisSpj->nama_jenis }}</td>
+                                <td class="text-center">{{ $spj->jenisSpj->nama_jenis }}</td>
 
-                                {{-- Nominal: rata kanan --}}
-                                <td class="text-end font-monospace align-middle">
+                                {{-- Nominal: rata tengah --}}
+                                <td class="text-center font-monospace align-middle">
                                     Rp {{ number_format($spj->nominal, 0, ',', '.') }}
                                 </td>
 
@@ -76,7 +76,7 @@
                                 </td>
 
                                 {{-- Aksi --}}
-                                <td class="align-middle">
+                                <td class="align-middle text-center">
                                     <div class="btn-group" role="group">
                                         {{-- Detail selalu ada --}}
                                         <a href="{{ route('operator.spj.show', $spj) }}"
