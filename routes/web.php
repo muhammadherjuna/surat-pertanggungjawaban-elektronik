@@ -25,6 +25,7 @@ Route::middleware(['auth', 'role:0'])->prefix('operator')->name('operator.')->gr
     Route::resource('spj', \App\Http\Controllers\Operator\SpjController::class);
     Route::post('spj/{spj}/dokumen', [\App\Http\Controllers\Operator\SpjController::class, 'storeDokumen'])->name('spj.dokumen.store');
     Route::delete('spj/{spj}/dokumen/{dokumen}', [\App\Http\Controllers\Operator\SpjController::class, 'destroyDokumen'])->name('spj.dokumen.destroy');
+    Route::post('spj/{spj}/submit', [\App\Http\Controllers\Operator\SpjController::class, 'submit'])->name('spj.submit');
 });
 
 Route::middleware(['auth', 'role:1,2,3'])->prefix('approval')->name('approval.')->group(function () {

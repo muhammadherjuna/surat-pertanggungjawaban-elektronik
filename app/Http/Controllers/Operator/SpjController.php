@@ -192,4 +192,38 @@ class SpjController extends Controller
 
         return back()->with('success', 'Dokumen berhasil dihapus.');
     }
+
+    public function submit(Spj $spj)
+    {
+        if ($spj->user_id !== Auth::id()) abort(403);
+
+        // Hanya bisa diajukan jika masih di draft (level 0) atau perlu revisi
+        if ($spj->status_level > 0 && !$spj->is_rejected) {
+            return redirect()->route('operator.spj.index')->with('error', 'SPJ ini sudah dalam proses persetujuan.');
+        }
+
+        // Cek apakah semua dokumen pendukung sudah diunggah
+        $spj->load(['jenisSpj.dokumenPendukungs', 'dokumens']);
+        $requiredDocs = $spj->jenisSpj->dokumenPendukungs;
+        $uploadedDocIds = $spj->dokumens->pluck('dokumen_pendukung_id');
+
+        $missingDocs = $requiredDocs->filter(fn($dp) => !$uploadedDocIds->contains($dp->id));
+
+        if ($missingDocs->isNotEmpty()) {
+            $missingNames = $missingDocs->pluck('nama_dokumen')->implode(', ');
+            return redirect()->route('operator.spj.show', $spj)
+                ->with('error', "Pengajuan gagal! Dokumen berikut belum diunggah: {$missingNames}.");
+        }
+
+        // Set status menjadi "Diajukan" (masih level 0, tapi tandai is_submitted / tandai tidak lagi rejected)
+        $spj->update([
+            'is_rejected' => false,
+            // status_level tetap 0, tapi sudah "diajukan" ke Kabid untuk review
+            // Sebenarnya kita set ke level 1 agar masuk antrian approval
+            'status_level' => 1,
+        ]);
+
+        return redirect()->route('operator.spj.index')->with('success', "SPJ '{$spj->deskripsi}' berhasil diajukan dan menunggu persetujuan Kabid.");
+    }
 }
+
