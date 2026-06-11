@@ -77,7 +77,7 @@
 
                                 {{-- Aksi --}}
                                 <td class="align-middle text-center">
-                                    <div class="btn-group" role="group">
+                                    <div class="d-flex justify-content-center gap-2 flex-wrap">
                                         {{-- Detail selalu ada --}}
                                         <a href="{{ route('operator.spj.show', $spj) }}"
                                            class="btn btn-sm btn-outline-info"
@@ -94,7 +94,7 @@
                                             </a>
 
                                             {{-- Ajukan --}}
-                                            <form action="{{ route('operator.spj.submit', $spj) }}" method="POST" class="d-inline"
+                                            <form action="{{ route('operator.spj.submit', $spj) }}" method="POST" class="m-0 p-0"
                                                   onsubmit="return confirm('Ajukan SPJ ini untuk persetujuan? Pastikan semua dokumen sudah diunggah.');">
                                                 @csrf
                                                 <button type="submit"
@@ -106,7 +106,7 @@
 
                                             {{-- Hapus (hanya jika bukan sedang revisi) --}}
                                             @if(!$spj->is_rejected)
-                                            <form action="{{ route('operator.spj.destroy', $spj) }}" method="POST" class="d-inline"
+                                            <form action="{{ route('operator.spj.destroy', $spj) }}" method="POST" class="m-0 p-0"
                                                   onsubmit="return confirm('Yakin ingin menghapus SPJ ini? Tindakan ini tidak dapat dibatalkan.');">
                                                 @csrf
                                                 @method('DELETE')
