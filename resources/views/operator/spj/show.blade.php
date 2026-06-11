@@ -119,7 +119,7 @@
                                     <div class="col-lg-7">
                                         @if($uploadedDokumen)
                                             {{-- UI Jika Dokumen SUDAH Diunggah --}}
-                                            <div class="d-flex justify-content-lg-end justify-content-start gap-2 flex-wrap">
+                                            <div class="d-flex justify-content-lg-end justify-content-start flex-wrap" style="gap: 8px;">
                                                 <!-- Tombol Lihat -->
                                                 <a href="{{ asset('storage/' . $uploadedDokumen->file_path) }}" target="_blank" class="btn btn-sm btn-info text-white shadow-sm" title="Lihat Dokumen">
                                                     <i class="fas fa-eye mr-2"></i> Lihat
@@ -154,7 +154,7 @@
                                         @else
                                             {{-- UI Jika Dokumen BELUM Diunggah --}}
                                             @if($spj->status_level == 0 || $spj->is_rejected)
-                                                <form action="{{ route('operator.spj.dokumen.store', $spj) }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2 ajax-form" data-row-id="doc-row-{{ $dp->id }}">
+                                                <form action="{{ route('operator.spj.dokumen.store', $spj) }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center ajax-form" style="gap: 8px;" data-row-id="doc-row-{{ $dp->id }}">
                                                     @csrf
                                                     <input type="hidden" name="dokumen_pendukung_id" value="{{ $dp->id }}">
                                                     
@@ -172,7 +172,7 @@
                                                                 el.classList.remove('text-primary', 'fw-bold');
                                                             }
                                                         ">
-                                                        <div class="d-flex align-items-center justify-content-center gap-2">
+                                                        <div class="d-flex align-items-center justify-content-center" style="gap: 8px;">
                                                             <i class="fas fa-cloud-upload-alt text-secondary"></i>
                                                             <span id="fileName_{{ $dp->id }}" class="text-muted small text-truncate" style="max-width: 160px; display: inline-block; vertical-align: bottom;">Klik untuk Pilih File</span>
                                                         </div>
