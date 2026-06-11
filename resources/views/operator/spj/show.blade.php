@@ -26,13 +26,15 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Informasi SPJ</h5>
-                    @if($spj->status_level == 0 || $spj->is_rejected)
-                        <a href="{{ route('operator.spj.edit', $spj) }}" class="btn btn-sm btn-warning shadow-sm">
-                            <i class="fas fa-edit mr-1"></i> Edit
-                        </a>
-                    @endif
+                <div class="card-header">
+                    <h5 class="card-title m-0 mt-1">Informasi SPJ</h5>
+                    <div class="card-tools">
+                        @if($spj->status_level == 0 || $spj->is_rejected)
+                            <a href="{{ route('operator.spj.edit', $spj) }}" class="btn btn-sm btn-warning shadow-sm">
+                                <i class="fas fa-edit mr-1"></i> Edit
+                            </a>
+                        @endif
+                    </div>
                 </div>
                 <div class="card-body">
                     <table class="table table-borderless table-sm">
