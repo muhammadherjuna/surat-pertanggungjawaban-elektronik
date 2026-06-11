@@ -54,14 +54,18 @@
                         <tr>
                             <th>Status</th>
                             <td>: 
-                                @if($spj->status_level == 0) Draft / Diajukan
-                                @elseif($spj->status_level == 1) Disetujui Kabid
-                                @elseif($spj->status_level == 2) Disetujui Sekdin
-                                @elseif($spj->status_level == 3) Disetujui Kadin
-                                @elseif($spj->status_level == 4) Terverifikasi
-                                @endif
                                 @if($spj->is_rejected)
-                                    <span class="badge bg-danger ms-2">Revisi</span>
+                                    <span class="badge bg-danger"><i class="fas fa-redo me-1"></i>Perlu Revisi</span>
+                                @elseif($spj->status_level == 0)
+                                    <span class="badge bg-secondary"><i class="fas fa-file-alt me-1"></i>Draft</span>
+                                @elseif($spj->status_level == 1)
+                                    <span class="badge bg-info text-dark"><i class="fas fa-clock me-1"></i>Menunggu Kabid</span>
+                                @elseif($spj->status_level == 2)
+                                    <span class="badge bg-primary"><i class="fas fa-check me-1"></i>Disetujui Kabid</span>
+                                @elseif($spj->status_level == 3)
+                                    <span class="badge bg-warning text-dark"><i class="fas fa-check-double me-1"></i>Disetujui Sekdin</span>
+                                @elseif($spj->status_level == 4)
+                                    <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Terverifikasi</span>
                                 @endif
                             </td>
                         </tr>
