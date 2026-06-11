@@ -51,7 +51,7 @@
                                 </td>
 
                                 {{-- Jenis SPJ --}}
-                                <td class="text-center">{{ $spj->jenisSpj->nama_jenis }}</td>
+                                <td class="text-center align-middle">{{ $spj->jenisSpj->nama_jenis }}</td>
 
                                 {{-- Nominal: rata tengah --}}
                                 <td class="text-center font-monospace align-middle">
