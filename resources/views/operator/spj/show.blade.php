@@ -85,7 +85,7 @@
                             @php
                                 $uploadedDokumen = $spj->dokumens->firstWhere('dokumen_pendukung_id', $dp->id);
                             @endphp
-                            <div class="list-group-item px-0 py-3">
+                            <div class="list-group-item px-0 py-3" id="doc-row-{{ $dp->id }}">
                                 <div class="row align-items-center">
                                     <!-- Bagian Kiri: Nama Dokumen & Status -->
                                     <div class="col-lg-5 mb-2 mb-lg-0">
@@ -117,17 +117,17 @@
 
                                                 @if($spj->status_level == 0 || $spj->is_rejected)
                                                     <!-- Tombol Ubah (Memicu File Input tersembunyi) -->
-                                                    <form action="{{ route('operator.spj.dokumen.store', $spj) }}" method="POST" enctype="multipart/form-data" class="m-0 p-0" id="form-update-{{ $dp->id }}">
+                                                    <form action="{{ route('operator.spj.dokumen.store', $spj) }}" method="POST" enctype="multipart/form-data" class="m-0 p-0 ajax-form" id="form-update-{{ $dp->id }}" data-row-id="doc-row-{{ $dp->id }}">
                                                         @csrf
                                                         <input type="hidden" name="dokumen_pendukung_id" value="{{ $dp->id }}">
-                                                        <input type="file" name="file" id="file_update_{{ $dp->id }}" style="display: none;" required onchange="document.getElementById('form-update-{{ $dp->id }}').submit();">
+                                                        <input type="file" name="file" id="file_update_{{ $dp->id }}" style="display: none;" required onchange="this.form.requestSubmit();">
                                                         <button type="button" class="btn btn-sm btn-warning shadow-sm" onclick="document.getElementById('file_update_{{ $dp->id }}').click();" title="Ubah Dokumen">
                                                             <i class="fas fa-edit me-1"></i> Ubah
                                                         </button>
                                                     </form>
 
                                                     <!-- Tombol Hapus -->
-                                                    <form action="{{ route('operator.spj.dokumen.destroy', [$spj, $uploadedDokumen]) }}" method="POST" class="m-0 p-0" onsubmit="return confirm('Yakin ingin menghapus dokumen ini?');">
+                                                    <form action="{{ route('operator.spj.dokumen.destroy', [$spj, $uploadedDokumen]) }}" method="POST" class="m-0 p-0 ajax-form" data-row-id="doc-row-{{ $dp->id }}" onsubmit="if(!confirm('Yakin ingin menghapus dokumen ini?')) { event.preventDefault(); return false; }">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-sm btn-danger shadow-sm" title="Hapus Dokumen">
@@ -144,7 +144,7 @@
                                         @else
                                             {{-- UI Jika Dokumen BELUM Diunggah --}}
                                             @if($spj->status_level == 0 || $spj->is_rejected)
-                                                <form action="{{ route('operator.spj.dokumen.store', $spj) }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2">
+                                                <form action="{{ route('operator.spj.dokumen.store', $spj) }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2 ajax-form" data-row-id="doc-row-{{ $dp->id }}">
                                                     @csrf
                                                     <input type="hidden" name="dokumen_pendukung_id" value="{{ $dp->id }}">
                                                     
@@ -193,11 +193,69 @@
 
 @section('js')
 <script>
-    // Script untuk menghilangkan notifikasi secara otomatis setelah 4 detik
+    // Script untuk menghilangkan notifikasi global secara otomatis
     setTimeout(function() {
         $('.auto-close').fadeOut('slow', function() {
             $(this).remove();
         });
     }, 4000);
+
+    // AJAX Form Submission untuk mencegah reload halaman
+    document.addEventListener('submit', async function(e) {
+        if (e.target && e.target.classList.contains('ajax-form')) {
+            if (e.defaultPrevented) return; // Stop if confirmation cancelled
+            e.preventDefault();
+            
+            let form = e.target;
+            let rowId = form.dataset.rowId;
+            let btn = form.querySelector('button[type="submit"]');
+            
+            let originalContent = '';
+            if (btn) {
+                originalContent = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Proses...';
+                btn.disabled = true;
+            }
+
+            try {
+                let formData = new FormData(form);
+                
+                let response = await fetch(form.action, {
+                    method: form.method || 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                if (response.ok) {
+                    let html = await response.text();
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(html, 'text/html');
+                    
+                    let newRow = doc.getElementById(rowId);
+                    if (newRow) {
+                        // Replace only the specific row
+                        document.getElementById(rowId).innerHTML = newRow.innerHTML;
+                    }
+                    
+                    // Optional: show a mini toast/alert manually here
+                    // alert('Berhasil!');
+                } else {
+                    alert('Gagal memproses dokumen. Silakan coba lagi.');
+                    if (btn) {
+                        btn.innerHTML = originalContent;
+                        btn.disabled = false;
+                    }
+                }
+            } catch (error) {
+                alert('Terjadi kesalahan jaringan.');
+                if (btn) {
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                }
+            }
+        }
+    });
 </script>
 @stop
