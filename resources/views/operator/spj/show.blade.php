@@ -30,30 +30,36 @@
                     <h5 class="mb-0">Informasi SPJ</h5>
                 </div>
                 <div class="card-body">
-                    <table class="table table-borderless">
+                    <table class="table table-borderless table-sm">
                         <tr>
                             <th style="width: 30%">Deskripsi</th>
-                            <td>: {{ $spj->deskripsi }}</td>
+                            <td style="width: 1%">:</td>
+                            <td class="text-justify">{{ $spj->deskripsi }}</td>
                         </tr>
                         <tr>
                             <th>Jenis SPJ</th>
-                            <td>: {{ $spj->jenisSpj->nama_jenis }}</td>
+                            <td>:</td>
+                            <td>{{ $spj->jenisSpj->nama_jenis }}</td>
                         </tr>
                         <tr>
                             <th>Nominal</th>
-                            <td>: Rp {{ number_format($spj->nominal, 2, ',', '.') }}</td>
+                            <td>:</td>
+                            <td class="font-monospace">Rp {{ number_format($spj->nominal, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
                             <th>Tipe / No</th>
-                            <td>: {{ $spj->filter_tipe }} {{ $spj->filter_no ? ' / ' . $spj->filter_no : '' }}</td>
+                            <td>:</td>
+                            <td>{{ $spj->filter_tipe }} {{ $spj->filter_no ? ' / ' . $spj->filter_no : '' }}</td>
                         </tr>
                         <tr>
                             <th>Rekening</th>
-                            <td>: {{ $spj->rekening->kode_rekening }} - {{ $spj->rekening->nama_rekening }}</td>
+                            <td>:</td>
+                            <td>{{ $spj->rekening->kode_rekening }} - {{ $spj->rekening->nama_rekening }}</td>
                         </tr>
                         <tr>
-                            <th>Status</th>
-                            <td>: 
+                            <th class="align-middle">Status</th>
+                            <td class="align-middle">:</td>
+                            <td class="align-middle"> 
                                 @if($spj->is_rejected)
                                     <span class="badge bg-danger"><i class="fas fa-redo mr-2"></i>Perlu Revisi</span>
                                 @elseif($spj->status_level == 0)
