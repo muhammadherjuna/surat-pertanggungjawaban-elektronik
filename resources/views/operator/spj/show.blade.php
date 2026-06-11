@@ -90,10 +90,9 @@
                                     <!-- Bagian Kiri: Nama Dokumen & Status -->
                                     <div class="col-lg-5 mb-2 mb-lg-0">
                                         <h6 class="mb-1 fw-bold">{{ $dp->nama_dokumen }}</h6>
-                                        <div class="d-flex align-items-center gap-2 mt-1">
+                                        <div class="mt-1">
                                             @if($uploadedDokumen)
                                                 <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Sudah Diunggah</span>
-                                                <a href="{{ asset('storage/' . $uploadedDokumen->file_path) }}" target="_blank" class="btn btn-xs btn-outline-info p-1" style="font-size: 11px;"><i class="fas fa-eye me-1"></i>Lihat</a>
                                             @else
                                                 <span class="badge bg-secondary"><i class="fas fa-clock me-1"></i>Belum Diunggah</span>
                                             @endif
@@ -106,53 +105,79 @@
                                         @endif
                                     </div>
 
-                                    <!-- Bagian Kanan: Form Upload & Aksi -->
+                                    <!-- Bagian Kanan: Aksi / Form Upload -->
                                     <div class="col-lg-7">
-                                        @if($spj->status_level == 0 || $spj->is_rejected)
-                                            <form action="{{ route('operator.spj.dokumen.store', $spj) }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2">
-                                                @csrf
-                                                <input type="hidden" name="dokumen_pendukung_id" value="{{ $dp->id }}">
-                                                
-                                                <div class="flex-grow-1 position-relative rounded p-2 text-center shadow-sm" style="border: 1.5px dashed #adb5bd; background-color: #f8f9fa; cursor: pointer; transition: all 0.2s ease;" onclick="document.getElementById('file_{{ $dp->id }}').click()" onmouseover="this.style.borderColor='#0d6efd'; this.style.backgroundColor='#e9ecef';" onmouseout="this.style.borderColor='#adb5bd'; this.style.backgroundColor='#f8f9fa';">
-                                                    <input type="file" name="file" id="file_{{ $dp->id }}" style="display: none;" required onchange="
-                                                        let fileName = this.files.length > 0 ? this.files[0].name : 'Klik untuk Pilih File';
-                                                        let el = document.getElementById('fileName_{{ $dp->id }}');
-                                                        el.innerText = fileName;
-                                                        if(this.files.length > 0) {
-                                                            el.classList.remove('text-muted');
-                                                            el.classList.add('text-primary', 'fw-bold');
-                                                        } else {
-                                                            el.classList.add('text-muted');
-                                                            el.classList.remove('text-primary', 'fw-bold');
-                                                        }
-                                                    ">
-                                                    <div class="d-flex align-items-center justify-content-center gap-2">
-                                                        <i class="fas fa-cloud-upload-alt text-secondary"></i>
-                                                        <span id="fileName_{{ $dp->id }}" class="text-muted small text-truncate" style="max-width: 160px; display: inline-block; vertical-align: bottom;">Klik untuk Pilih File</span>
+                                        @if($uploadedDokumen)
+                                            {{-- UI Jika Dokumen SUDAH Diunggah --}}
+                                            <div class="d-flex justify-content-lg-end justify-content-start gap-2 flex-wrap">
+                                                <!-- Tombol Lihat -->
+                                                <a href="{{ asset('storage/' . $uploadedDokumen->file_path) }}" target="_blank" class="btn btn-sm btn-info text-white shadow-sm" title="Lihat Dokumen">
+                                                    <i class="fas fa-eye me-1"></i> Lihat
+                                                </a>
+
+                                                @if($spj->status_level == 0 || $spj->is_rejected)
+                                                    <!-- Tombol Ubah (Memicu File Input tersembunyi) -->
+                                                    <form action="{{ route('operator.spj.dokumen.store', $spj) }}" method="POST" enctype="multipart/form-data" class="m-0 p-0" id="form-update-{{ $dp->id }}">
+                                                        @csrf
+                                                        <input type="hidden" name="dokumen_pendukung_id" value="{{ $dp->id }}">
+                                                        <input type="file" name="file" id="file_update_{{ $dp->id }}" style="display: none;" required onchange="document.getElementById('form-update-{{ $dp->id }}').submit();">
+                                                        <button type="button" class="btn btn-sm btn-warning shadow-sm" onclick="document.getElementById('file_update_{{ $dp->id }}').click();" title="Ubah Dokumen">
+                                                            <i class="fas fa-edit me-1"></i> Ubah
+                                                        </button>
+                                                    </form>
+
+                                                    <!-- Tombol Hapus -->
+                                                    <form action="{{ route('operator.spj.dokumen.destroy', [$spj, $uploadedDokumen]) }}" method="POST" class="m-0 p-0" onsubmit="return confirm('Yakin ingin menghapus dokumen ini?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger shadow-sm" title="Hapus Dokumen">
+                                                            <i class="fas fa-trash me-1"></i> Hapus
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    <div class="text-muted small align-self-center ms-2">
+                                                        <i>(Terkunci)</i>
                                                     </div>
-                                                </div>
-                                                
-                                                <button type="submit" class="btn btn-sm btn-primary shadow-sm" title="Unggah Dokumen">
-                                                    <i class="fas fa-upload"></i>
-                                                </button>
-                                                
-                                                @if($uploadedDokumen)
-                                                    <button type="button" onclick="if(confirm('Hapus dokumen ini?')) document.getElementById('form-delete-{{ $dp->id }}').submit();" class="btn btn-sm btn-danger shadow-sm" title="Hapus Dokumen">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
                                                 @endif
-                                            </form>
-                                            
-                                            @if($uploadedDokumen)
-                                            <form id="form-delete-{{ $dp->id }}" action="{{ route('operator.spj.dokumen.destroy', [$spj, $uploadedDokumen]) }}" method="POST" class="d-none">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
-                                            @endif
-                                        @else
-                                            <div class="text-muted small text-lg-end text-start mt-2 mt-lg-0">
-                                                <i>Tidak dapat mengubah dokumen pada status ini.</i>
                                             </div>
+
+                                        @else
+                                            {{-- UI Jika Dokumen BELUM Diunggah --}}
+                                            @if($spj->status_level == 0 || $spj->is_rejected)
+                                                <form action="{{ route('operator.spj.dokumen.store', $spj) }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center gap-2">
+                                                    @csrf
+                                                    <input type="hidden" name="dokumen_pendukung_id" value="{{ $dp->id }}">
+                                                    
+                                                    <!-- Area Dropzone Mini -->
+                                                    <div class="flex-grow-1 position-relative rounded p-2 text-center shadow-sm" style="border: 1.5px dashed #adb5bd; background-color: #f8f9fa; cursor: pointer; transition: all 0.2s ease;" onclick="document.getElementById('file_{{ $dp->id }}').click()" onmouseover="this.style.borderColor='#0d6efd'; this.style.backgroundColor='#e9ecef';" onmouseout="this.style.borderColor='#adb5bd'; this.style.backgroundColor='#f8f9fa';">
+                                                        <input type="file" name="file" id="file_{{ $dp->id }}" style="display: none;" required onchange="
+                                                            let fileName = this.files.length > 0 ? this.files[0].name : 'Klik untuk Pilih File';
+                                                            let el = document.getElementById('fileName_{{ $dp->id }}');
+                                                            el.innerText = fileName;
+                                                            if(this.files.length > 0) {
+                                                                el.classList.remove('text-muted');
+                                                                el.classList.add('text-primary', 'fw-bold');
+                                                            } else {
+                                                                el.classList.add('text-muted');
+                                                                el.classList.remove('text-primary', 'fw-bold');
+                                                            }
+                                                        ">
+                                                        <div class="d-flex align-items-center justify-content-center gap-2">
+                                                            <i class="fas fa-cloud-upload-alt text-secondary"></i>
+                                                            <span id="fileName_{{ $dp->id }}" class="text-muted small text-truncate" style="max-width: 160px; display: inline-block; vertical-align: bottom;">Klik untuk Pilih File</span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Tombol Unggah -->
+                                                    <button type="submit" class="btn btn-sm btn-primary shadow-sm" title="Unggah Dokumen">
+                                                        <i class="fas fa-upload me-1"></i> Unggah
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <div class="text-muted small text-lg-end text-start mt-2 mt-lg-0">
+                                                    <i>Tidak dapat mengunggah dokumen pada status ini.</i>
+                                                </div>
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
