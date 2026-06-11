@@ -32,9 +32,9 @@
                     <thead class="table-light">
                         <tr>
                             <th style="width: 4%;" class="text-center align-middle">No</th>
-                            <th style="width: 28%;">Deskripsi</th>
-                            <th style="width: 18%;">Jenis SPJ</th>
-                            <th style="width: 15%;" class="text-end">Nominal</th>
+                            <th style="width: 28%;" class="text-center">Deskripsi</th>
+                            <th style="width: 18%;" class="text-center">Jenis SPJ</th>
+                            <th style="width: 15%;" class="text-center">Nominal</th>
                             <th style="width: 17%;" class="text-center">Status</th>
                             <th style="width: 18%;" class="text-center">Aksi</th>
                         </tr>
