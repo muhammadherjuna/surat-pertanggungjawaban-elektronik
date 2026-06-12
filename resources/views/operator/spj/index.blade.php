@@ -27,7 +27,7 @@
 
     <div class="card shadow-sm">
         <div class="card-header bg-white">
-            <form action="{{ route('operator.spj.index') }}" method="GET" class="form-inline">
+            <form onsubmit="return false;" class="form-inline">
                 @if(request()->has('status'))
                     <input type="hidden" name="status" value="{{ request('status') }}">
                 @endif
@@ -35,19 +35,16 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text"><i class="fas fa-search"></i></div>
                     </div>
-                    <input type="text" name="search" class="form-control" placeholder="Cari deskripsi..." value="{{ request('search') }}">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Ketik deskripsi..." value="{{ request('search') }}">
                 </div>
                 
                 <div class="input-group mb-2 mr-sm-2">
-                    <select name="tipe" class="form-control">
+                    <select id="tipeFilter" class="form-control">
                         <option value="">-- Semua Tipe --</option>
                         <option value="GU" {{ request('tipe') == 'GU' ? 'selected' : '' }}>Ganti Uang (GU)</option>
                         <option value="TU" {{ request('tipe') == 'TU' ? 'selected' : '' }}>Tambah Uang (TU)</option>
                     </select>
                 </div>
-                
-                <button type="submit" class="btn btn-primary mb-2 mr-2"><i class="fas fa-filter"></i> Filter</button>
-                <a href="{{ route('operator.spj.index', request()->has('status') ? ['status' => request('status')] : []) }}" class="btn btn-default mb-2"><i class="fas fa-sync-alt"></i> Reset</a>
             </form>
         </div>
         <div class="card-body p-0">
@@ -63,9 +60,9 @@
                             <th style="width: 18%;" class="text-center">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="spjTableBody">
                         @forelse($spjs as $index => $spj)
-                            <tr>
+                            <tr class="spj-row" data-deskripsi="{{ strtolower($spj->deskripsi) }}" data-tipe="{{ $spj->filter_tipe }}">
                                 {{-- Nomor Urut --}}
                                 <td class="text-center text-muted align-middle">{{ $index + 1 }}</td>
 
@@ -173,5 +170,33 @@
             $(this).remove();
         });
     }, 4000);
+
+    // Live Search (Smart Filter)
+    $(document).ready(function() {
+        function filterTable() {
+            var searchText = $('#searchInput').val().toLowerCase();
+            var typeFilter = $('#tipeFilter').val();
+
+            $('.spj-row').each(function() {
+                var rowDeskripsi = $(this).data('deskripsi');
+                var rowTipe = $(this).data('tipe');
+
+                var matchSearch = rowDeskripsi.includes(searchText);
+                var matchTipe = (typeFilter === "") || (rowTipe === typeFilter);
+
+                if (matchSearch && matchTipe) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+
+        $('#searchInput').on('keyup', filterTable);
+        $('#tipeFilter').on('change', filterTable);
+        
+        // Panggil saat load untuk memastikan nilai dari parameter URL teraplikasikan di filter JS
+        filterTable();
+    });
 </script>
 @stop
