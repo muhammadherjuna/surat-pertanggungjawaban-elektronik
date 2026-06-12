@@ -26,6 +26,30 @@
     @endif
 
     <div class="card shadow-sm">
+        <div class="card-header bg-white">
+            <form action="{{ route('operator.spj.index') }}" method="GET" class="form-inline">
+                @if(request()->has('status'))
+                    <input type="hidden" name="status" value="{{ request('status') }}">
+                @endif
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-search"></i></div>
+                    </div>
+                    <input type="text" name="search" class="form-control" placeholder="Cari deskripsi..." value="{{ request('search') }}">
+                </div>
+                
+                <div class="input-group mb-2 mr-sm-2">
+                    <select name="tipe" class="form-control">
+                        <option value="">-- Semua Tipe --</option>
+                        <option value="GU" {{ request('tipe') == 'GU' ? 'selected' : '' }}>Ganti Uang (GU)</option>
+                        <option value="TU" {{ request('tipe') == 'TU' ? 'selected' : '' }}>Tambah Uang (TU)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary mb-2 mr-2"><i class="fas fa-filter"></i> Filter</button>
+                <a href="{{ route('operator.spj.index', request()->has('status') ? ['status' => request('status')] : []) }}" class="btn btn-default mb-2"><i class="fas fa-sync-alt"></i> Reset</a>
+            </form>
+        </div>
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover align-top mb-0">

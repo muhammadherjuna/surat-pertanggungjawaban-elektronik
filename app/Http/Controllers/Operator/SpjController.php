@@ -33,6 +33,14 @@ class SpjController extends Controller
             }
         }
 
+        if ($request->filled('search')) {
+            $query->where('deskripsi', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('tipe')) {
+            $query->where('filter_tipe', $request->tipe);
+        }
+
         $spjs = $query->latest()->get();
         return view('operator.spj.index', compact('spjs'));
     }
