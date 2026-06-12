@@ -13,9 +13,27 @@ use Illuminate\Support\Facades\Auth;
 
 class SpjController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $spjs = Spj::where('user_id', Auth::id())->latest()->get();
+        $query = Spj::where('user_id', Auth::id());
+
+        if ($request->has('status')) {
+            $status = $request->status;
+            if ($status == 'draft') {
+                $query->where(function($q) {
+                    $q->where('status_level', 0)
+                      ->orWhere('is_rejected', true);
+                });
+            } elseif ($status == 'proses') {
+                $query->whereBetween('status_level', [1, 3])
+                      ->where('is_rejected', false);
+            } elseif ($status == 'selesai') {
+                $query->where('status_level', 4)
+                      ->where('is_rejected', false);
+            }
+        }
+
+        $spjs = $query->latest()->get();
         return view('operator.spj.index', compact('spjs'));
     }
 

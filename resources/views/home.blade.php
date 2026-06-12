@@ -66,7 +66,7 @@
         <div class="col-lg-3 col-6">
             <div class="small-box bg-purple shadow">
                 <div class="inner">
-                    <h3 style="font-size: 1.5rem">Rp {{ number_format($stats['total_nominal_selesai'], 0, ',', '.') }}</h3>
+                    <h3>Rp {{ number_format($stats['total_nominal_selesai'], 0, ',', '.') }}</h3>
                     <p>Total Nilai Disetujui</p>
                 </div>
                 <div class="icon">
