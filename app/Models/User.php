@@ -14,4 +14,9 @@ class User extends Authenticatable
 
     public function role() { return $this->belongsTo(Role::class); }
     public function bidang() { return $this->belongsTo(Bidang::class); }
+
+    public function adminlte_desc()
+    {
+        return $this->role->name ?? 'User';
+    }
 }
