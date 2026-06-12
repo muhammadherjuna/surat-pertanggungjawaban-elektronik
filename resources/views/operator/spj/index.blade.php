@@ -156,6 +156,10 @@
                     </tbody>
                 </table>
             </div>
+            
+            <div class="d-flex justify-content-center mt-3 mb-2">
+                {{ $spjs->links('pagination::bootstrap-4') }}
+            </div>
         </div>
     </div>
 

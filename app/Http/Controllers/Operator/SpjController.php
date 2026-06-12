@@ -41,7 +41,7 @@ class SpjController extends Controller
             $query->where('filter_tipe', $request->tipe);
         }
 
-        $spjs = $query->latest()->get();
+        $spjs = $query->latest()->paginate(10)->withQueryString();
         return view('operator.spj.index', compact('spjs'));
     }
 
