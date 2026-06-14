@@ -247,6 +247,7 @@ class SpjController extends Controller
         $spj->update([
             'is_rejected' => false,
             'status_level' => 1,
+            'submitted_at' => now(),
         ]);
 
         return redirect()->route('operator.spj.index')->with('success', "SPJ '{$spj->deskripsi}' berhasil diajukan dan menunggu persetujuan Kabid.");

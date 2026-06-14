@@ -25,30 +25,41 @@
                     <h5 class="mb-0">Informasi SPJ</h5>
                 </div>
                 <div class="card-body">
-                    <table class="table table-borderless">
+                    <table class="table table-borderless table-sm">
                         <tr>
-                            <th style="width: 35%">Pengaju</th>
-                            <td>: {{ $spj->user->name }}</td>
+                            <th style="width: 35%" class="text-left">Pengaju</th>
+                            <td style="width: 1%">:</td>
+                            <td class="text-left font-weight-bold">{{ $spj->user->name }}</td>
                         </tr>
                         <tr>
-                            <th>Deskripsi</th>
-                            <td>: {{ $spj->deskripsi }}</td>
+                            <th class="text-left">Deskripsi</th>
+                            <td>:</td>
+                            <td class="text-left">{{ $spj->deskripsi }}</td>
                         </tr>
                         <tr>
-                            <th>Jenis SPJ</th>
-                            <td>: {{ $spj->jenisSpj->nama_jenis }}</td>
+                            <th class="text-left">Jenis SPJ</th>
+                            <td>:</td>
+                            <td class="text-left">{{ $spj->jenisSpj->nama_jenis }}</td>
                         </tr>
                         <tr>
-                            <th>Nominal</th>
-                            <td>: Rp {{ number_format($spj->nominal, 2, ',', '.') }}</td>
+                            <th class="text-left">Nominal</th>
+                            <td>:</td>
+                            <td class="text-left font-monospace text-nowrap">Rp {{ number_format($spj->nominal, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
-                            <th>Tipe / No</th>
-                            <td>: {{ $spj->filter_tipe }} {{ $spj->filter_no ? ' / ' . $spj->filter_no : '' }}</td>
+                            <th class="text-left">Tipe / No</th>
+                            <td>:</td>
+                            <td class="text-left">{{ trim($spj->filter_tipe . ' ' . $spj->filter_no) }}</td>
                         </tr>
                         <tr>
-                            <th>Rekening</th>
-                            <td>: {{ $spj->rekening->kode_rekening }} - {{ $spj->rekening->nama_rekening }}</td>
+                            <th class="text-left">Rekening</th>
+                            <td>:</td>
+                            <td class="text-left">{{ $spj->rekening->kode_rekening }} - {{ $spj->rekening->nama_rekening }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-left">Tanggal Diajukan</th>
+                            <td>:</td>
+                            <td class="text-left text-muted">{{ $spj->submitted_at ? $spj->submitted_at->format('d/m/Y H:i') : $spj->created_at->format('d/m/Y H:i') }}</td>
                         </tr>
                     </table>
                 </div>

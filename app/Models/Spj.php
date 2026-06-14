@@ -5,8 +5,8 @@ use Illuminate\Support\Str;
 
 class Spj extends Model
 {
-    protected $fillable = ['uuid', 'user_id', 'jenis_spj_id', 'deskripsi', 'filter_tipe', 'filter_no', 'nominal', 'rekening_id', 'status_level', 'is_rejected'];
-    protected $casts = ['is_rejected' => 'boolean'];
+    protected $fillable = ['uuid', 'user_id', 'jenis_spj_id', 'deskripsi', 'filter_tipe', 'filter_no', 'nominal', 'rekening_id', 'status_level', 'is_rejected', 'submitted_at'];
+    protected $casts = ['is_rejected' => 'boolean', 'submitted_at' => 'datetime'];
     
     protected static function boot()
     {
