@@ -33,19 +33,19 @@
                 <table class="table table-bordered table-hover align-middle mb-0">
                     <thead class="table-light text-secondary">
                         <tr>
-                            <th style="width: 5%;" class="text-left align-middle">No</th>
-                            <th style="width: 15%;" class="text-left">Pengaju</th>
-                            <th style="width: 30%;" class="text-left">Deskripsi</th>
-                            <th style="width: 15%;" class="text-left">Jenis SPJ</th>
-                            <th style="width: 15%;" class="text-left">Nominal</th>
-                            <th style="width: 12%;" class="text-left">Tanggal Diajukan</th>
-                            <th style="width: 8%;" class="text-center">Aksi</th>
+                            <th style="width: 5%;" class="text-center align-middle">No</th>
+                            <th style="width: 15%;" class="text-left align-middle">Pengaju</th>
+                            <th style="width: 30%;" class="text-left align-middle">Deskripsi</th>
+                            <th style="width: 15%;" class="text-left align-middle">Jenis SPJ</th>
+                            <th style="width: 15%;" class="text-left align-middle">Nominal</th>
+                            <th style="width: 12%;" class="text-left align-middle">Tanggal Diajukan</th>
+                            <th style="width: 8%;" class="text-center align-middle">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($spjs as $index => $spj)
                             <tr>
-                                <td class="text-left text-muted align-middle">{{ $index + 1 }}</td>
+                                <td class="text-center text-muted align-middle">{{ $index + 1 }}</td>
                                 <td class="align-middle text-left font-weight-bold">{{ $spj->user->name }}</td>
                                 <td class="align-middle text-left text-wrap">{{ $spj->deskripsi }}</td>
                                 <td class="align-middle text-left">{{ $spj->jenisSpj->nama_jenis }}</td>

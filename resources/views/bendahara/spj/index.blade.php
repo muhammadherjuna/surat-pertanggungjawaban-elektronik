@@ -45,19 +45,19 @@
                 <table class="table table-bordered table-hover align-middle mb-0">
                     <thead class="table-light text-secondary">
                         <tr>
-                            <th style="width: 5%;" class="text-left align-middle">No</th>
-                            <th style="width: 15%;" class="text-left">Pengaju</th>
-                            <th style="width: 25%;" class="text-left">Deskripsi</th>
-                            <th style="width: 15%;" class="text-left">Nominal</th>
-                            <th style="width: 15%;" class="text-left">Tanggal Diajukan</th>
-                            <th style="width: 15%;" class="text-left">Status</th>
-                            <th style="width: 10%;" class="text-center">Aksi</th>
+                            <th style="width: 5%;" class="text-center align-middle">No</th>
+                            <th style="width: 15%;" class="text-left align-middle">Pengaju</th>
+                            <th style="width: 25%;" class="text-left align-middle">Deskripsi</th>
+                            <th style="width: 15%;" class="text-left align-middle">Nominal</th>
+                            <th style="width: 15%;" class="text-left align-middle">Tanggal Diajukan</th>
+                            <th style="width: 15%;" class="text-left align-middle">Status</th>
+                            <th style="width: 10%;" class="text-center align-middle">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($spjs as $index => $spj)
                             <tr>
-                                <td class="text-left text-muted align-middle">{{ $index + 1 }}</td>
+                                <td class="text-center text-muted align-middle">{{ $index + 1 }}</td>
                                 <td class="align-middle text-left font-weight-bold">{{ $spj->user->name }}</td>
                                 <td class="align-middle text-left text-wrap">{{ $spj->deskripsi }}</td>
                                 <td class="align-middle text-left font-monospace text-nowrap">

@@ -93,12 +93,12 @@
                     <form id="reject-form" action="{{ route('approval.spj.reject', $spj) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin menolak SPJ ini dan mengembalikannya ke Operator?');">
                         @csrf
                         <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
+                            <table class="table table-bordered table-hover align-middle">
+                                <thead class="table-light text-secondary">
                                     <tr>
-                                        <th>Nama Dokumen</th>
-                                        <th>File</th>
-                                        <th>Komentar Revisi (Isi jika salah)</th>
+                                        <th style="width: 35%;" class="text-left align-middle">Nama Dokumen</th>
+                                        <th style="width: 25%;" class="text-center align-middle">File / Status</th>
+                                        <th style="width: 40%;" class="text-left align-middle">Komentar Revisi (Isi jika salah)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -107,19 +107,37 @@
                                             $uploadedDokumen = $spj->dokumens->firstWhere('dokumen_pendukung_id', $dp->id);
                                         @endphp
                                         <tr>
-                                            <td>{{ $dp->nama_dokumen }}</td>
-                                            <td>
-                                                @if($uploadedDokumen)
-                                                    <a href="{{ asset('storage/' . $uploadedDokumen->file_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">Buka File</a>
-                                                @else
-                                                    <span class="badge bg-danger">Belum Diunggah</span>
+                                            <td class="align-middle text-left font-weight-bold">
+                                                {{ $dp->nama_dokumen }}
+                                                @if($dp->is_wajib)
+                                                    <span class="text-danger" title="Wajib">*</span>
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td class="align-middle text-center">
                                                 @if($uploadedDokumen)
-                                                    <textarea name="komentar[{{ $uploadedDokumen->id }}]" class="form-control" rows="2" placeholder="Alasan penolakan dokumen ini..."></textarea>
+                                                    <div class="d-flex flex-column align-items-center" style="gap: 5px;">
+                                                        <span class="badge bg-success mb-1"><i class="fas fa-check-circle mr-1"></i>Sudah Diunggah</span>
+                                                        <a href="{{ asset('storage/' . $uploadedDokumen->file_path) }}" target="_blank" class="btn btn-xs btn-info text-white shadow-sm font-weight-bold">
+                                                            <i class="fas fa-eye mr-1"></i> Buka File
+                                                        </a>
+                                                    </div>
                                                 @else
-                                                    <p class="text-danger small mb-0">Dokumen belum ada. Anda bisa menolak SPJ dengan alasan dokumen tidak lengkap.</p>
+                                                    @if($dp->is_wajib)
+                                                        <span class="badge bg-danger"><i class="fas fa-exclamation-circle mr-1"></i>Belum Diunggah (Wajib)</span>
+                                                    @else
+                                                        <span class="badge bg-secondary"><i class="fas fa-clock mr-1"></i>Belum Diunggah (Opsional)</span>
+                                                    @endif
+                                                @endif
+                                            </td>
+                                            <td class="align-middle text-left">
+                                                @if($uploadedDokumen)
+                                                    <textarea name="komentar[{{ $uploadedDokumen->id }}]" class="form-control form-control-sm" rows="2" placeholder="Alasan penolakan dokumen ini..."></textarea>
+                                                @else
+                                                    @if($dp->is_wajib)
+                                                        <p class="text-danger small mb-0"><i class="fas fa-exclamation-triangle mr-1"></i> Dokumen wajib ini belum ada. Anda bisa menolak SPJ karena kelengkapan.</p>
+                                                    @else
+                                                        <p class="text-muted small mb-0"><i class="fas fa-info-circle mr-1"></i> Dokumen opsional tidak wajib diunggah.</p>
+                                                    @endif
                                                 @endif
                                             </td>
                                         </tr>

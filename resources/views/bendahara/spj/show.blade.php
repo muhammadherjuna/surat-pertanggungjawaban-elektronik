@@ -89,11 +89,11 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
+                        <table class="table table-bordered table-hover align-middle mb-0">
+                            <thead class="table-light text-secondary">
                                 <tr>
-                                    <th>Nama Dokumen</th>
-                                    <th>File</th>
+                                    <th style="width: 60%;" class="text-left align-middle">Nama Dokumen</th>
+                                    <th style="width: 40%;" class="text-center align-middle">File / Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,12 +102,26 @@
                                         $uploadedDokumen = $spj->dokumens->firstWhere('dokumen_pendukung_id', $dp->id);
                                     @endphp
                                     <tr>
-                                        <td>{{ $dp->nama_dokumen }}</td>
-                                        <td>
+                                        <td class="align-middle text-left font-weight-bold">
+                                            {{ $dp->nama_dokumen }}
+                                            @if($dp->is_wajib)
+                                                <span class="text-danger" title="Wajib">*</span>
+                                            @endif
+                                        </td>
+                                        <td class="align-middle text-center">
                                             @if($uploadedDokumen)
-                                                <a href="{{ asset('storage/' . $uploadedDokumen->file_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">Buka File</a>
+                                                <div class="d-flex flex-column align-items-center" style="gap: 5px;">
+                                                    <span class="badge bg-success mb-1"><i class="fas fa-check-circle mr-1"></i>Sudah Diunggah</span>
+                                                    <a href="{{ asset('storage/' . $uploadedDokumen->file_path) }}" target="_blank" class="btn btn-xs btn-info text-white shadow-sm font-weight-bold">
+                                                        <i class="fas fa-eye mr-1"></i> Buka File
+                                                    </a>
+                                                </div>
                                             @else
-                                                <span class="badge bg-danger">Belum Diunggah</span>
+                                                @if($dp->is_wajib)
+                                                    <span class="badge bg-danger"><i class="fas fa-exclamation-circle mr-1"></i>Belum Diunggah (Wajib)</span>
+                                                @else
+                                                    <span class="badge bg-secondary"><i class="fas fa-clock mr-1"></i>Belum Diunggah (Opsional)</span>
+                                                @endif
                                             @endif
                                         </td>
                                     </tr>
