@@ -28,11 +28,14 @@
             <div class="card mb-4">
                 <div class="card-header">
                     <h5 class="card-title m-0 mt-1">Informasi SPJ</h5>
-                    <div class="card-tools">
+                    <div class="card-tools d-flex" style="gap: 8px;">
                         @if($spj->status_level == 0 || $spj->is_rejected)
                             <a href="{{ route('operator.spj.edit', $spj) }}" class="btn btn-sm btn-warning shadow-sm">
                                 <i class="fas fa-edit mr-1"></i> Edit
                             </a>
+                            <button type="button" class="btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#submitModal-{{ $spj->id }}">
+                                <i class="fas fa-paper-plane mr-1"></i> Ajukan
+                            </button>
                         @endif
                     </div>
                 </div>
@@ -102,12 +105,21 @@
                                 <div class="row align-items-center">
                                     <!-- Bagian Kiri: Nama Dokumen & Status -->
                                     <div class="col-lg-5 mb-2 mb-lg-0">
-                                        <h6 class="mb-1 fw-bold">{{ $dp->nama_dokumen }}</h6>
+                                        <h6 class="mb-1 fw-bold">
+                                            {{ $dp->nama_dokumen }}
+                                            @if($dp->is_wajib)
+                                                <span class="text-danger" title="Wajib Diunggah" data-toggle="tooltip">*</span>
+                                            @endif
+                                        </h6>
                                         <div class="mt-1">
                                             @if($uploadedDokumen)
                                                 <span class="badge bg-success"><i class="fas fa-check-circle mr-2"></i>Sudah Diunggah</span>
                                             @else
-                                                <span class="badge bg-secondary"><i class="fas fa-clock mr-2"></i>Belum Diunggah</span>
+                                                @if($dp->is_wajib)
+                                                    <span class="badge bg-danger"><i class="fas fa-exclamation-circle mr-2"></i>Belum Diunggah (Wajib)</span>
+                                                @else
+                                                    <span class="badge bg-secondary"><i class="fas fa-clock mr-2"></i>Belum Diunggah (Opsional)</span>
+                                                @endif
                                             @endif
                                         </div>
                                         
@@ -199,8 +211,42 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
+
+    <!-- Modal Konfirmasi Ajukan -->
+    @if($spj->status_level == 0 || $spj->is_rejected)
+        <div class="modal fade" id="submitModal-{{ $spj->id }}" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel-{{ $spj->id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content border-0 shadow">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title font-weight-bold" id="submitModalLabel-{{ $spj->id }}">
+                            <i class="fas fa-paper-plane mr-2"></i> Konfirmasi Pengajuan
+                        </h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-left text-dark">
+                        <p>Apakah Anda yakin ingin mengajukan SPJ <strong>"{{ $spj->deskripsi }}"</strong> untuk tahapan persetujuan?</p>
+                        <div class="alert alert-warning mt-3 mb-0" role="alert">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> <strong>Perhatian:</strong> Pastikan semua dokumen bukti pendukung wajib sudah diunggah dengan lengkap sebelum mengajukan.
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary font-weight-bold" data-dismiss="modal">
+                            <i class="fas fa-times mr-1"></i> Batal
+                        </button>
+                        <form action="{{ route('operator.spj.submit', $spj) }}" method="POST" class="m-0 p-0">
+                            @csrf
+                            <button type="submit" class="btn btn-success font-weight-bold">
+                                <i class="fas fa-check mr-1"></i> Ya, Ajukan Sekarang
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
 @stop
 

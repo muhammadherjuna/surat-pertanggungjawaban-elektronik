@@ -228,24 +228,24 @@ class SpjController extends Controller
             return redirect()->route('operator.spj.index')->with('error', 'SPJ ini sudah dalam proses persetujuan.');
         }
 
-        // Cek apakah semua dokumen pendukung sudah diunggah
-        $spj->load(['jenisSpj.dokumenPendukungs', 'dokumens']);
-        $requiredDocs = $spj->jenisSpj->dokumenPendukungs;
-        $uploadedDocIds = $spj->dokumens->pluck('dokumen_pendukung_id');
-
-        $missingDocs = $requiredDocs->filter(fn($dp) => !$uploadedDocIds->contains($dp->id));
-
-        if ($missingDocs->isNotEmpty()) {
-            $missingNames = $missingDocs->pluck('nama_dokumen')->implode(', ');
-            return redirect()->route('operator.spj.show', $spj)
-                ->with('error', "Pengajuan gagal! Dokumen berikut belum diunggah: {$missingNames}.");
+        // Validasi: hanya dokumen pendukung yang WAJIB (is_wajib = true) yang harus sudah diunggah.
+        $mandatoryDocs = $spj->jenisSpj->dokumenPendukungs()->where('is_wajib', true)->get();
+        
+        $missingDocs = [];
+        foreach ($mandatoryDocs as $doc) {
+            $uploaded = $spj->dokumens()->where('dokumen_pendukung_id', $doc->id)->exists();
+            if (!$uploaded) {
+                $missingDocs[] = $doc->nama_dokumen;
+            }
         }
 
-        // Set status menjadi "Diajukan" (masih level 0, tapi tandai is_submitted / tandai tidak lagi rejected)
+        if (count($missingDocs) > 0) {
+            return redirect()->back()->with('error', 'Gagal mengajukan SPJ. Dokumen wajib berikut belum diunggah: ' . implode(', ', $missingDocs) . '.');
+        }
+
+        // Set status menjadi "Diajukan" (level 1, masuk antrian approval Kabid)
         $spj->update([
             'is_rejected' => false,
-            // status_level tetap 0, tapi sudah "diajukan" ke Kabid untuk review
-            // Sebenarnya kita set ke level 1 agar masuk antrian approval
             'status_level' => 1,
         ]);
 
