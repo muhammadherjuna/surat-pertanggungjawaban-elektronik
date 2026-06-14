@@ -67,7 +67,7 @@
                         @forelse($spjs as $index => $spj)
                             <tr class="spj-row" data-deskripsi="{{ strtolower($spj->deskripsi) }}" data-tipe="{{ $spj->filter_tipe }}">
                                 {{-- Nomor Urut --}}
-                                <td class="text-left text-muted align-middle">{{ $index + 1 }}</td>
+                                <td class="text-left text-muted align-middle">{{ $spjs->firstItem() + $index }}</td>
 
                                 {{-- Deskripsi --}}
                                 <td class="text-left">
@@ -160,8 +160,13 @@
                 </table>
             </div>
             
-            <div class="d-flex justify-content-center mt-3 mb-2">
-                {{ $spjs->links('pagination::bootstrap-4') }}
+            <div class="d-flex justify-content-between align-items-center mt-3 mb-3 px-4">
+                <div class="text-muted text-sm">
+                    Menampilkan <span class="font-weight-bold">{{ $spjs->firstItem() ?? 0 }}</span> sampai <span class="font-weight-bold">{{ $spjs->lastItem() ?? 0 }}</span> dari <span class="font-weight-bold">{{ $spjs->total() }}</span> SPJ
+                </div>
+                <div class="m-0">
+                    {{ $spjs->appends(request()->query())->links('pagination::bootstrap-4') }}
+                </div>
             </div>
         </div>
     </div>
