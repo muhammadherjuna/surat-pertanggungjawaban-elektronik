@@ -61,25 +61,47 @@
         @endif
 
         {{-- User menu footer --}}
-        <li class="user-footer">
-            @if($profile_url)
-                <a href="{{ $profile_url }}" class="nav-link btn btn-default btn-flat d-inline-block">
-                    <i class="fa fa-fw fa-user text-lightblue"></i>
-                    {{ __('adminlte::menu.profile') }}
-                </a>
-            @endif
-            <a class="btn btn-default btn-flat float-right @if(!$profile_url) btn-block @endif"
-               href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="fa fa-fw fa-power-off text-red"></i>
-                {{ __('adminlte::adminlte.log_out') }}
-            </a>
-            <form id="logout-form" action="{{ $logout_url }}" method="POST" style="display: none;">
-                @if(config('adminlte.logout_method'))
-                    {{ method_field(config('adminlte.logout_method')) }}
+        @if(config('adminlte.usermenu_header'))
+            <li class="user-footer">
+                @if($profile_url)
+                    <a href="{{ $profile_url }}" class="nav-link btn btn-default btn-flat d-inline-block">
+                        <i class="fa fa-fw fa-user text-lightblue"></i>
+                        {{ __('adminlte::menu.profile') }}
+                    </a>
                 @endif
-                {{ csrf_field() }}
-            </form>
-        </li>
+                <a class="btn btn-default btn-flat float-right @if(!$profile_url) btn-block @endif"
+                   href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fa fa-fw fa-power-off text-red"></i>
+                    {{ __('adminlte::adminlte.log_out') }}
+                </a>
+                <form id="logout-form" action="{{ $logout_url }}" method="POST" style="display: none;">
+                    @if(config('adminlte.logout_method'))
+                        {{ method_field(config('adminlte.logout_method')) }}
+                    @endif
+                    {{ csrf_field() }}
+                </form>
+            </li>
+        @else
+            <li>
+                @if($profile_url)
+                    <a href="{{ $profile_url }}" class="dropdown-item">
+                        <i class="fas fa-fw fa-user mr-2 text-lightblue"></i>
+                        Profil
+                    </a>
+                    <div class="dropdown-divider"></div>
+                @endif
+                <a class="dropdown-item text-danger py-2" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-fw fa-sign-out-alt mr-2"></i>
+                    Keluar (Log Out)
+                </a>
+                <form id="logout-form" action="{{ $logout_url }}" method="POST" style="display: none;">
+                    @if(config('adminlte.logout_method'))
+                        {{ method_field(config('adminlte.logout_method')) }}
+                    @endif
+                    {{ csrf_field() }}
+                </form>
+            </li>
+        @endif
 
     </ul>
 
