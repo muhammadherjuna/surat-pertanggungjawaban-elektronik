@@ -52,35 +52,35 @@
                 <table class="table table-bordered table-hover align-top mb-0">
                     <thead class="table-light">
                         <tr>
-                            <th style="width: 4%;" class="text-center align-middle">No</th>
-                            <th style="width: 28%;" class="text-center">Deskripsi</th>
-                            <th style="width: 18%;" class="text-center">Jenis SPJ</th>
-                            <th style="width: 15%;" class="text-center">Nominal</th>
-                            <th style="width: 17%;" class="text-center">Status</th>
-                            <th style="width: 18%;" class="text-center">Aksi</th>
+                            <th style="width: 4%;" class="text-left align-middle">No</th>
+                            <th style="width: 28%;" class="text-left">Deskripsi</th>
+                            <th style="width: 18%;" class="text-left">Jenis SPJ</th>
+                            <th style="width: 15%;" class="text-left">Nominal</th>
+                            <th style="width: 17%;" class="text-left">Status</th>
+                            <th style="width: 18%;" class="text-left">Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="spjTableBody">
                         @forelse($spjs as $index => $spj)
                             <tr class="spj-row" data-deskripsi="{{ strtolower($spj->deskripsi) }}" data-tipe="{{ $spj->filter_tipe }}">
                                 {{-- Nomor Urut --}}
-                                <td class="text-center text-muted align-middle">{{ $index + 1 }}</td>
+                                <td class="text-left text-muted align-middle">{{ $index + 1 }}</td>
 
                                 {{-- Deskripsi --}}
-                                <td style="text-align: justify;">
+                                <td class="text-left">
                                     <span class="fw-semibold">{{ $spj->deskripsi }}</span>
                                 </td>
 
                                 {{-- Jenis SPJ --}}
-                                <td class="text-center align-middle">{{ $spj->jenisSpj->nama_jenis }}</td>
+                                <td class="text-left align-middle">{{ $spj->jenisSpj->nama_jenis }}</td>
 
                                 {{-- Nominal: rata tengah --}}
-                                <td class="text-center font-monospace align-middle">
+                                <td class="text-left font-monospace align-middle">
                                     Rp {{ number_format($spj->nominal, 0, ',', '.') }}
                                 </td>
 
                                 {{-- Status --}}
-                                <td class="text-center align-middle">
+                                <td class="text-left align-middle">
                                     @if($spj->is_rejected)
                                         <span class="badge bg-danger"><i class="fas fa-redo mr-2"></i>Perlu Revisi</span>
                                     @elseif($spj->status_level == 0)
@@ -97,8 +97,8 @@
                                 </td>
 
                                 {{-- Aksi --}}
-                                <td class="align-middle text-center">
-                                    <div class="d-flex justify-content-center flex-wrap" style="gap: 8px;">
+                                <td class="align-middle text-left">
+                                    <div class="d-flex justify-content-start flex-wrap" style="gap: 8px;">
                                         {{-- Detail selalu ada --}}
                                         <a href="{{ route('operator.spj.show', $spj) }}"
                                            class="btn btn-sm btn-outline-info"

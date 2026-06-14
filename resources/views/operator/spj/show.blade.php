@@ -39,9 +39,9 @@
                 <div class="card-body">
                     <table class="table table-borderless table-sm">
                         <tr>
-                            <th style="width: 30%">Deskripsi</th>
+                            <th style="width: 30%" class="text-left">Deskripsi</th>
                             <td style="width: 1%">:</td>
-                            <td class="text-justify">{{ $spj->deskripsi }}</td>
+                            <td class="text-left">{{ $spj->deskripsi }}</td>
                         </tr>
                         <tr>
                             <th>Jenis SPJ</th>
