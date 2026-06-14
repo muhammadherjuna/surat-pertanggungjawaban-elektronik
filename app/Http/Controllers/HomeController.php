@@ -25,6 +25,7 @@ class HomeController extends Controller
     public function index()
     {
         $user = auth()->user();
+        $roleLevel = $user->role->level;
         
         $stats = [
             'perlu_tindakan' => 0,
@@ -33,32 +34,81 @@ class HomeController extends Controller
             'total_nominal_selesai' => 0,
         ];
 
-        // Untuk saat ini kita buat universal berdasarkan scope dokumen si User
-        // Jika Operator, dia hanya melihat SPJ miliknya.
-        // Jika Verifikator, nanti query disesuaikan (untuk saat ini fokus pada Operator UI)
-        $query = Spj::where('user_id', $user->id);
+        $latestSpjs = collect();
+        
+        if ($roleLevel == 0) {
+            // Operator: Only see their own SPJs
+            $query = Spj::where('user_id', $user->id);
 
-        $stats['perlu_tindakan'] = (clone $query)
-            ->where(function($q) {
-                $q->where('status_level', 0)
-                  ->orWhere('is_rejected', true);
-            })->count();
+            $stats['perlu_tindakan'] = (clone $query)
+                ->where(function($q) {
+                    $q->where('status_level', 0)
+                      ->orWhere('is_rejected', true);
+                })->count();
 
-        $stats['menunggu_verifikasi'] = (clone $query)
-            ->whereBetween('status_level', [1, 3])
-            ->where('is_rejected', false)
-            ->count();
+            $stats['menunggu_verifikasi'] = (clone $query)
+                ->whereBetween('status_level', [1, 3])
+                ->where('is_rejected', false)
+                ->count();
 
-        $stats['selesai'] = (clone $query)
-            ->where('status_level', 4)
-            ->where('is_rejected', false)
-            ->count();
+            $stats['selesai'] = (clone $query)
+                ->where('status_level', 4)
+                ->where('is_rejected', false)
+                ->count();
 
-        $stats['total_nominal_selesai'] = (clone $query)
-            ->where('status_level', 4)
-            ->where('is_rejected', false)
-            ->sum('nominal');
+            $stats['total_nominal_selesai'] = (clone $query)
+                ->where('status_level', 4)
+                ->where('is_rejected', false)
+                ->sum('nominal');
+                
+            $latestSpjs = Spj::where('user_id', $user->id)->latest()->take(5)->get();
+            
+        } elseif (in_array($roleLevel, [1, 2, 3])) {
+            // Approval (Kabid, Sekdin, Kadin)
+            $targetLevel = $roleLevel;
+            
+            $pendingQuery = Spj::where('status_level', $targetLevel)->where('is_rejected', false);
+            $approvedQuery = Spj::where('status_level', '>', $targetLevel)->where('is_rejected', false);
+            
+            // Filter by bidang for Kabid (role level 1)
+            if ($roleLevel == 1 && $user->bidang_id) {
+                $pendingQuery->whereHas('user', function($q) use ($user) {
+                    $q->where('bidang_id', $user->bidang_id);
+                });
+                $approvedQuery->whereHas('user', function($q) use ($user) {
+                    $q->where('bidang_id', $user->bidang_id);
+                });
+            }
+            
+            $stats['perlu_tindakan'] = (clone $pendingQuery)->count(); // Menunggu Persetujuan Anda
+            $stats['menunggu_verifikasi'] = (clone $approvedQuery)->count(); // Telah Anda Setujui
+            $stats['selesai'] = (clone $pendingQuery)->sum('nominal'); // Total Nominal Menunggu
+            $stats['total_nominal_selesai'] = (clone $approvedQuery)->sum('nominal'); // Total Nominal Disetujui
+            
+            $latestSpjs = $pendingQuery->latest()->take(5)->get();
+            
+        } elseif ($roleLevel == 4) {
+            // Bendahara
+            $pendingQuery = Spj::where('status_level', 3)->where('is_rejected', false);
+            $verifiedQuery = Spj::where('status_level', 4)->where('is_rejected', false);
+            
+            $stats['perlu_tindakan'] = $pendingQuery->count(); // Menunggu Verifikasi Anda
+            $stats['menunggu_verifikasi'] = $verifiedQuery->count(); // Selesai / Terverifikasi
+            $stats['selesai'] = $pendingQuery->sum('nominal'); // Total Nominal Menunggu
+            $stats['total_nominal_selesai'] = $verifiedQuery->sum('nominal'); // Total Nominal Selesai
+            
+            $latestSpjs = $pendingQuery->latest()->take(5)->get();
+            
+        } else {
+            // Super Admin
+            $stats['perlu_tindakan'] = \App\Models\User::count(); // Total Users
+            $stats['menunggu_verifikasi'] = \App\Models\Bidang::count(); // Total Bidangs
+            $stats['selesai'] = Spj::count(); // Total SPJ
+            $stats['total_nominal_selesai'] = Spj::sum('nominal'); // Total Nominal
+            
+            $latestSpjs = Spj::latest()->take(5)->get();
+        }
 
-        return view('home', compact('stats'));
+        return view('home', compact('stats', 'latestSpjs', 'roleLevel'));
     }
 }
