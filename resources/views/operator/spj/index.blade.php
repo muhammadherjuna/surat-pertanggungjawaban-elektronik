@@ -39,8 +39,11 @@
                 </div>
                 
                 <div class="input-group mb-2 mr-sm-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-filter"></i></div>
+                    </div>
                     <select id="tipeFilter" class="form-control">
-                        <option value="">-- Semua Tipe --</option>
+                        <option value="">Semua Tipe SPJ</option>
                         <option value="GU" {{ request('tipe') == 'GU' ? 'selected' : '' }}>Ganti Uang (GU)</option>
                         <option value="TU" {{ request('tipe') == 'TU' ? 'selected' : '' }}>Tambah Uang (TU)</option>
                     </select>
