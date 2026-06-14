@@ -56,7 +56,7 @@
                         <tr>
                             <th>Tipe / No</th>
                             <td>:</td>
-                            <td>{{ $spj->filter_tipe }} {{ $spj->filter_no ? ' / ' . $spj->filter_no : '' }}</td>
+                            <td>{{ trim($spj->filter_tipe . ' ' . $spj->filter_no) }}</td>
                         </tr>
                         <tr>
                             <th>Rekening</th>
