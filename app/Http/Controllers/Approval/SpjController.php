@@ -11,10 +11,10 @@ class SpjController extends Controller
 {
     private function getTargetStatusLevel()
     {
-        // Level 1 (Kabid) checks status_level = 0
-        // Level 2 (Sekdin) checks status_level = 1
-        // Level 3 (Kadin) checks status_level = 2
-        return Auth::user()->level - 1;
+        // Level 1 (Kabid) checks status_level = 1
+        // Level 2 (Sekdin) checks status_level = 2
+        // Level 3 (Kadin) checks status_level = 3
+        return Auth::user()->role->level;
     }
 
     public function index()
