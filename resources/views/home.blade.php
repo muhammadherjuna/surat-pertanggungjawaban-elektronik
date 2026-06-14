@@ -178,21 +178,7 @@
                             <i class="fas fa-list text-primary mr-2"></i> Log Aktivitas SPJ Sistem
                         @endif
                     </h5>
-                    <div>
-                        @if($roleLevel == 0)
-                            <a href="{{ route('operator.spj.index') }}" class="btn btn-sm btn-outline-primary font-weight-bold">
-                                <i class="fas fa-th-list mr-1"></i> Transaksi SPJ Lengkap
-                            </a>
-                        @elseif(in_array($roleLevel, [1, 2, 3]))
-                            <a href="{{ route('approval.spj.index') }}" class="btn btn-sm btn-outline-warning font-weight-bold">
-                                <i class="fas fa-inbox mr-1"></i> Buka Inbox Persetujuan
-                            </a>
-                        @elseif($roleLevel == 4)
-                            <a href="{{ route('bendahara.spj.index') }}" class="btn btn-sm btn-outline-primary font-weight-bold">
-                                <i class="fas fa-th-list mr-1"></i> Daftar SPJ Lengkap
-                            </a>
-                        @endif
-                    </div>
+                    <div></div>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -276,11 +262,8 @@
                         </a>
                     </div>
                 @elseif(in_array($roleLevel, [1, 2, 3]))
-                    <div class="card-footer bg-white d-flex justify-content-between align-items-center py-2">
+                    <div class="card-footer bg-white py-2">
                         <span class="text-muted small"><i class="fas fa-info-circle mr-1"></i>Tabel ini menampilkan log monitoring umum. Untuk tindakan persetujuan, gunakan menu <strong>Persetujuan SPJ</strong> di sidebar.</span>
-                        <a href="{{ route('approval.spj.index') }}" class="btn btn-sm btn-warning text-dark font-weight-bold">
-                            <i class="fas fa-inbox mr-1"></i> Inbox Persetujuan
-                        </a>
                     </div>
                 @elseif($roleLevel == 4)
                     <div class="card-footer bg-white text-right py-2">
