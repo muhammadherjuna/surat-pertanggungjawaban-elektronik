@@ -15,10 +15,10 @@
                 @csrf
                 @method('PUT')
                 
-                <div class="mb-3">
-                    <label class="form-label">Jenis SPJ</label>
-                    <select name="jenis_spj_id" class="form-select @error('jenis_spj_id') is-invalid @enderror" required>
-                        <option value="" disabled {{ old('jenis_spj_id', $spj->jenis_spj_id) ? '' : 'selected' }}>-- Pilih Jenis SPJ --</option>
+                <div class="form-group mb-3">
+                    <label class="form-label font-weight-bold">Jenis SPJ</label>
+                    <select name="jenis_spj_id" class="form-control @error('jenis_spj_id') is-invalid @enderror" required>
+                        <option value="" disabled {{ old('jenis_spj_id', $spj->jenis_spj_id) ? '' : 'selected' }}>Pilih Jenis SPJ</option>
                         @foreach($jenisSpjs as $js)
                             <option value="{{ $js->id }}" {{ (old('jenis_spj_id', $spj->jenis_spj_id) == $js->id) ? 'selected' : '' }}>{{ $js->nama_jenis }}</option>
                         @endforeach
@@ -26,25 +26,25 @@
                     @error('jenis_spj_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Deskripsi</label>
-                    <textarea name="deskripsi" rows="3" class="form-control @error('deskripsi') is-invalid @enderror" required>{{ old('deskripsi', $spj->deskripsi) }}</textarea>
+                <div class="form-group mb-3">
+                    <label class="form-label font-weight-bold">Deskripsi</label>
+                    <textarea name="deskripsi" rows="3" class="form-control @error('deskripsi') is-invalid @enderror" placeholder="Tuliskan deskripsi/keperluan SPJ..." required>{{ old('deskripsi', $spj->deskripsi) }}</textarea>
                     @error('deskripsi') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="row mb-3">
-                    <div class="col-sm-4 col-md-3">
-                        <label class="form-label">Filter Tipe</label>
-                        <select name="filter_tipe" id="filter_tipe" class="form-select @error('filter_tipe') is-invalid @enderror" required>
-                            <option value="GU" {{ old('filter_tipe', $spj->filter_tipe) == 'GU' ? 'selected' : '' }}>GU</option>
-                            <option value="TU" {{ old('filter_tipe', $spj->filter_tipe) == 'TU' ? 'selected' : '' }}>TU</option>
+                    <div class="col-md-4 form-group">
+                        <label class="form-label font-weight-bold">Tipe SPJ</label>
+                        <select name="filter_tipe" id="filter_tipe" class="form-control @error('filter_tipe') is-invalid @enderror" required>
+                            <option value="GU" {{ old('filter_tipe', $spj->filter_tipe) == 'GU' ? 'selected' : '' }}>Ganti Uang (GU)</option>
+                            <option value="TU" {{ old('filter_tipe', $spj->filter_tipe) == 'TU' ? 'selected' : '' }}>Tambah Uang (TU)</option>
                         </select>
                         @error('filter_tipe') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
-                    <div class="col-sm-4 col-md-3" id="filter_no_container">
-                        <label class="form-label">Filter No</label>
-                        <select name="filter_no" id="filter_no" class="form-select @error('filter_no') is-invalid @enderror">
-                            <option value="" disabled {{ old('filter_no', $spj->filter_no) ? '' : 'selected' }}>-- Pilih Nomor --</option>
+                    <div class="col-md-4 form-group" id="filter_no_container">
+                        <label class="form-label font-weight-bold">Nomor Urut (Khusus GU)</label>
+                        <select name="filter_no" id="filter_no" class="form-control @error('filter_no') is-invalid @enderror">
+                            <option value="" disabled {{ old('filter_no', $spj->filter_no) ? '' : 'selected' }}>Pilih Nomor Urut</option>
                             @for($i = 1; $i <= 24; $i++)
                                 <option value="{{ $i }}" {{ old('filter_no', $spj->filter_no) == $i ? 'selected' : '' }}>{{ $i }}</option>
                             @endfor
@@ -53,16 +53,21 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Nominal (Rp)</label>
-                    <input type="text" name="nominal" id="nominal" class="form-control @error('nominal') is-invalid @enderror" value="{{ old('nominal', number_format($spj->nominal, 0, ',', '.')) }}" required>
-                    @error('nominal') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                <div class="form-group mb-3">
+                    <label class="form-label font-weight-bold">Nominal (Rp)</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text font-weight-bold">Rp</span>
+                        </div>
+                        <input type="text" name="nominal" id="nominal" class="form-control font-weight-bold @error('nominal') is-invalid @enderror" value="{{ old('nominal', number_format($spj->nominal, 0, ',', '.')) }}" placeholder="0" required>
+                        @error('nominal') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Rekening</label>
-                    <select name="rekening_id" class="form-select @error('rekening_id') is-invalid @enderror" required>
-                        <option value="" disabled {{ old('rekening_id', $spj->rekening_id) ? '' : 'selected' }}>-- Pilih Rekening --</option>
+                <div class="form-group mb-4">
+                    <label class="form-label font-weight-bold">Rekening</label>
+                    <select name="rekening_id" class="form-control @error('rekening_id') is-invalid @enderror" required>
+                        <option value="" disabled {{ old('rekening_id', $spj->rekening_id) ? '' : 'selected' }}>Pilih Rekening Tujuan</option>
                         @foreach($rekenings as $rek)
                             <option value="{{ $rek->id }}" {{ (old('rekening_id', $spj->rekening_id) == $rek->id) ? 'selected' : '' }}>{{ $rek->kode_rekening }} - {{ $rek->nama_rekening }}</option>
                         @endforeach
@@ -70,8 +75,11 @@
                     @error('rekening_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
-                <button type="submit" class="btn btn-primary">Perbarui SPJ</button>
-                <a href="{{ route('operator.spj.show', $spj) }}" class="btn btn-secondary">Batal</a>
+                <hr>
+                <div class="d-flex justify-content-end" style="gap: 10px;">
+                    <a href="{{ route('operator.spj.show', $spj) }}" class="btn btn-light border"><i class="fas fa-times mr-2"></i> Batal</a>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i> Perbarui SPJ</button>
+                </div>
             </form>
         </div>
     </div>
