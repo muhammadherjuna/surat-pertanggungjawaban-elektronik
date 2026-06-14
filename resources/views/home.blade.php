@@ -213,11 +213,29 @@
                                             @elseif($spj->status_level == 0)
                                                 <span class="badge bg-secondary"><i class="fas fa-file-alt mr-1"></i>Draft</span>
                                             @elseif($spj->status_level == 1)
-                                                <span class="badge bg-warning text-dark"><i class="fas fa-clock mr-1"></i>Menunggu Kabid</span>
+                                                @if($roleLevel == 1)
+                                                    {{-- Dari sudut pandang Kabid: ini adalah ajuan masuk dari Operator --}}
+                                                    <span class="badge bg-warning text-dark"><i class="fas fa-inbox mr-1"></i>Ajuan Operator</span>
+                                                @else
+                                                    <span class="badge bg-warning text-dark"><i class="fas fa-clock mr-1"></i>Menunggu Kabid</span>
+                                                @endif
                                             @elseif($spj->status_level == 2)
-                                                <span class="badge bg-primary"><i class="fas fa-check mr-1"></i>Disetujui Kabid</span>
+                                                @if($roleLevel == 2)
+                                                    {{-- Dari sudut pandang Sekdin: ini adalah ajuan yang sudah disetujui Kabid, masuk ke meja Sekdin --}}
+                                                    <span class="badge bg-warning text-dark"><i class="fas fa-inbox mr-1"></i>Ajuan dari Kabid</span>
+                                                @else
+                                                    <span class="badge bg-primary"><i class="fas fa-check mr-1"></i>Disetujui Kabid</span>
+                                                @endif
                                             @elseif($spj->status_level == 3)
-                                                <span class="badge bg-info text-dark"><i class="fas fa-check-double mr-1"></i>Disetujui Sekdin</span>
+                                                @if($roleLevel == 3)
+                                                    {{-- Dari sudut pandang Kadin: ini adalah ajuan yang sudah disetujui Sekdin, masuk ke meja Kadin --}}
+                                                    <span class="badge bg-warning text-dark"><i class="fas fa-inbox mr-1"></i>Ajuan dari Sekdin</span>
+                                                @elseif($roleLevel == 4)
+                                                    {{-- Dari sudut pandang Bendahara: menunggu verifikasi --}}
+                                                    <span class="badge bg-info text-dark"><i class="fas fa-clock mr-1"></i>Menunggu Verifikasi</span>
+                                                @else
+                                                    <span class="badge bg-info text-dark"><i class="fas fa-check-double mr-1"></i>Disetujui Sekdin</span>
+                                                @endif
                                             @elseif($spj->status_level == 4)
                                                 <span class="badge bg-success"><i class="fas fa-check-circle mr-1"></i>Terverifikasi</span>
                                             @endif
