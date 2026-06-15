@@ -152,7 +152,10 @@
                                                     </form>
 
                                                     <!-- Tombol Hapus -->
-                                                    <form action="{{ route('operator.spj.dokumen.destroy', [$spj, $uploadedDokumen]) }}" method="POST" class="m-0 p-0 ajax-form" data-row-id="doc-row-{{ $dp->id }}" onsubmit="if(!confirm('Yakin ingin menghapus dokumen ini?')) { event.preventDefault(); return false; }">
+                                                    <form action="{{ route('operator.spj.dokumen.destroy', [$spj, $uploadedDokumen]) }}" method="POST" class="m-0 p-0 ajax-form" data-row-id="doc-row-{{ $dp->id }}"
+                                                          data-confirm="Dokumen yang sudah diunggah akan dihapus."
+                                                          data-confirm-title="Hapus dokumen ini?"
+                                                          data-confirm-type="danger">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-sm btn-danger shadow-sm" title="Hapus Dokumen">

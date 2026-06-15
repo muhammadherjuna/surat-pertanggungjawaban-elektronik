@@ -39,7 +39,10 @@
                             <td>{{ $rekening->nama_rekening }}</td>
                             <td>
                                 <a href="{{ route('master.rekenings.edit', $rekening->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('master.rekenings.destroy', $rekening->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Yakin ingin menghapus data ini?');">
+                                <form action="{{ route('master.rekenings.destroy', $rekening->id) }}" method="POST" style="display:inline-block;"
+                                      data-confirm="Data rekening ini akan dihapus secara permanen."
+                                      data-confirm-title="Hapus rekening ini?"
+                                      data-confirm-type="danger">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Hapus</button>

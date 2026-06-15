@@ -39,7 +39,10 @@
                         <td>{{ $bidang->unit_kerja ?? '-' }}</td>
                         <td>
                             <a href="{{ route('master.bidangs.edit', $bidang->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                            <form action="{{ route('master.bidangs.destroy', $bidang->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus bidang ini?');">
+                            <form action="{{ route('master.bidangs.destroy', $bidang->id) }}" method="POST" style="display:inline;"
+                                  data-confirm="Data bidang ini akan dihapus secara permanen."
+                                  data-confirm-title="Hapus bidang ini?"
+                                  data-confirm-type="danger">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Hapus</button>

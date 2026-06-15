@@ -53,7 +53,10 @@
                             </td>
                             <td>
                                 <a href="{{ route('master.users.edit', $user->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('master.users.destroy', $user->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Yakin ingin menghapus data ini?');">
+                                <form action="{{ route('master.users.destroy', $user->id) }}" method="POST" style="display:inline-block;"
+                                      data-confirm="Data pengguna ini akan dihapus secara permanen."
+                                      data-confirm-title="Hapus pengguna ini?"
+                                      data-confirm-type="danger">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Hapus</button>

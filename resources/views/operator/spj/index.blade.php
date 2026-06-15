@@ -162,7 +162,9 @@
                                             {{-- Hapus (hanya jika bukan sedang revisi) --}}
                                             @if(!$spj->is_rejected)
                                             <form action="{{ route('operator.spj.destroy', $spj) }}" method="POST" class="m-0 p-0"
-                                                  onsubmit="return confirm('Yakin ingin menghapus SPJ ini? Tindakan ini tidak dapat dibatalkan.');">
+                                                  data-confirm="SPJ ini akan dihapus secara permanen dan tidak dapat dikembalikan."
+                                                  data-confirm-title="Hapus SPJ ini?"
+                                                  data-confirm-type="danger">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"

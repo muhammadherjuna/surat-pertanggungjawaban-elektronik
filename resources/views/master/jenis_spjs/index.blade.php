@@ -49,7 +49,10 @@
                             </td>
                             <td>
                                 <a href="{{ route('master.jenis-spjs.edit', $jenis_spj->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('master.jenis-spjs.destroy', $jenis_spj->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Yakin ingin menghapus data ini?');">
+                                <form action="{{ route('master.jenis-spjs.destroy', $jenis_spj->id) }}" method="POST" style="display:inline-block;"
+                                      data-confirm="Data jenis SPJ beserta konfigurasi dokumen pendukungnya akan dihapus."
+                                      data-confirm-title="Hapus jenis SPJ ini?"
+                                      data-confirm-type="danger">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Hapus</button>

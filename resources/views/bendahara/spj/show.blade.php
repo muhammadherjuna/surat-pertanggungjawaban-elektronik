@@ -73,7 +73,10 @@
                 <div class="card-body">
                     <p class="text-muted">Sebagai Bendahara, Anda adalah tahap akhir validasi. Jika sudah diverifikasi dan dicairkan, klik Verifikasi Final.</p>
                     
-                    <form action="{{ route('bendahara.spj.verify', $spj) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin melakukan verifikasi final pada SPJ ini? Tindakan ini tidak bisa dibatalkan.');">
+                    <form action="{{ route('bendahara.spj.verify', $spj) }}" method="POST" class="d-inline"
+                          data-confirm="SPJ akan ditandai sebagai Terverifikasi. Tindakan ini tidak bisa dibatalkan."
+                          data-confirm-title="Verifikasi Final SPJ ini?"
+                          data-confirm-type="verify">
                         @csrf
                         <button type="submit" class="btn btn-success me-2">Verifikasi Final SPJ</button>
                     </form>

@@ -81,13 +81,20 @@
                         Periksa seluruh dokumen di sebelah kanan. Jika semua lengkap dan benar, klik <strong>Setujui</strong>. Jika ada yang perlu diperbaiki, isi komentar pada dokumen yang bermasalah lalu klik <strong>Tolak (Revisi)</strong>.
                     </p>
                     <div class="d-grid gap-2">
-                        <form action="{{ route('approval.spj.approve', $spj) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin menyetujui SPJ ini?');">
+                        <form action="{{ route('approval.spj.approve', $spj) }}" method="POST"
+                              data-confirm="Setelah disetujui, SPJ akan diteruskan ke tahap berikutnya."
+                              data-confirm-title="Setujui SPJ ini?"
+                              data-confirm-type="success">
                             @csrf
                             <button type="submit" class="btn btn-success btn-block font-weight-bold shadow-sm">
                                 <i class="fas fa-check-circle mr-2"></i>Setujui SPJ
                             </button>
                         </form>
-                        <button type="button" class="btn btn-danger btn-block font-weight-bold shadow-sm mt-2" onclick="document.getElementById('reject-form').submit();">
+                        <button type="button" class="btn btn-danger btn-block font-weight-bold shadow-sm mt-2"
+                                data-confirm="SPJ akan dikembalikan ke Operator untuk diperbaiki."
+                                data-confirm-title="Tolak SPJ ini?"
+                                data-confirm-type="reject"
+                                data-confirm-submit="#reject-form">
                             <i class="fas fa-times-circle mr-2"></i>Tolak SPJ (Revisi)
                         </button>
                     </div>
@@ -106,7 +113,7 @@
                     <small class="text-muted"><span class="text-danger font-weight-bold">*</span> = Wajib diunggah</small>
                 </div>
                 <div class="card-body p-3">
-                    <form id="reject-form" action="{{ route('approval.spj.reject', $spj) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin menolak SPJ ini dan mengembalikannya ke Operator?');">
+                    <form id="reject-form" action="{{ route('approval.spj.reject', $spj) }}" method="POST">
                         @csrf
 
                         <div class="d-flex flex-column" style="gap: 12px;">
