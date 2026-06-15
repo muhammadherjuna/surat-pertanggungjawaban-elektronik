@@ -17,11 +17,20 @@
                         <i class="fas fa-user-circle fa-2x text-primary"></i>
                     </div>
                     <div>
-                        <h4 class="mb-1 font-weight-bold text-dark">Selamat Datang, {{ Auth::user()->name }}!</h4>
+                        <h4 class="mb-1 font-weight-bold text-dark">Selamat datang, {{ Auth::user()->name }}</h4>
                         <p class="text-muted mb-0">
-                            Anda masuk sebagai <span class="badge badge-primary font-weight-bold px-2 py-1">{{ Auth::user()->role->name ?? 'User' }}</span>
-                            @if(Auth::user()->bidang)
-                                pada Bidang <span class="badge badge-secondary font-weight-bold px-2 py-1">{{ Auth::user()->bidang->nama_bidang }}</span>
+                            @if($roleLevel == 0)
+                                Silakan kelola pengajuan SPJ Bidang <span class="badge badge-secondary font-weight-bold px-2 py-1">{{ Auth::user()->bidang->nama_bidang ?? '-' }}</span> melalui menu di bawah.
+                            @elseif($roleLevel == 1)
+                                Anda login sebagai <span class="badge badge-primary font-weight-bold px-2 py-1">Kepala Bidang</span> <span class="badge badge-secondary font-weight-bold px-2 py-1">{{ Auth::user()->bidang->nama_bidang ?? '-' }}</span>. Tinjau dan setujui SPJ yang masuk.
+                            @elseif($roleLevel == 2)
+                                Anda login sebagai <span class="badge badge-primary font-weight-bold px-2 py-1">Sekretaris Dinas</span>. Periksa SPJ yang telah disetujui Kepala Bidang.
+                            @elseif($roleLevel == 3)
+                                Anda login sebagai <span class="badge badge-primary font-weight-bold px-2 py-1">Kepala Dinas</span>. Berikan persetujuan akhir atas SPJ yang diajukan.
+                            @elseif($roleLevel == 4)
+                                Anda login sebagai <span class="badge badge-primary font-weight-bold px-2 py-1">Bendahara</span>. Verifikasi SPJ yang telah melewati tahap persetujuan.
+                            @else
+                                Anda login sebagai <span class="badge badge-primary font-weight-bold px-2 py-1">Administrator Sistem</span>.
                             @endif
                         </p>
                     </div>
