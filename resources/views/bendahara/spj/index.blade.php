@@ -83,7 +83,7 @@
                             <tr>
                                 <td colspan="7" class="text-center py-5 text-muted">
                                     <i class="fas fa-folder-open fa-2x mb-2 d-block"></i>
-                                    Tidak ada SPJ di tahap ini.
+                                    Tidak ada data SPJ yang menunggu verifikasi saat ini.
                                 </td>
                             </tr>
                         @endforelse

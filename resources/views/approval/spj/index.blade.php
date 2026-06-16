@@ -54,7 +54,7 @@
                             <tr>
                                 <td colspan="7" class="text-center py-5 text-muted">
                                     <i class="fas fa-check-circle fa-2x text-success mb-2 d-block"></i>
-                                    Semua beres! Tidak ada SPJ yang butuh persetujuan saat ini.
+                                    Tidak ada data SPJ yang menunggu persetujuan saat ini.
                                 </td>
                             </tr>
                         @endforelse
