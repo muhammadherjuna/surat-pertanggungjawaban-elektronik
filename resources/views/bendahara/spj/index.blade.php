@@ -66,10 +66,10 @@
                                     {{ $spj->submitted_at ? $spj->submitted_at->format('d/m/Y H:i') : $spj->created_at->format('d/m/Y H:i') }}
                                 </td>
                                 <td class="align-middle text-left">
-                                    @if($spj->status_level == 3)
-                                        <span class="badge bg-warning text-dark"><i class="fas fa-clock mr-1"></i>Menunggu Verifikasi</span>
-                                    @elseif($spj->status_level == 4)
-                                        <span class="badge bg-success"><i class="fas fa-check-circle mr-1"></i>Selesai / Terverifikasi</span>
+                                    @if($spj->status_level == 4)
+                                        <span class="badge badge-info"><i class="fas fa-clock mr-1"></i>Menunggu Verifikasi</span>
+                                    @elseif($spj->status_level == 5)
+                                        <span class="badge badge-success"><i class="fas fa-check-circle mr-1"></i>Selesai / Terverifikasi</span>
                                     @endif
                                 </td>
                                 <td class="align-middle text-center">
@@ -77,7 +77,7 @@
                                         <a href="{{ route('bendahara.spj.show', $spj) }}" class="btn btn-sm btn-info text-white shadow-sm font-weight-bold" title="Detail">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        @if($spj->status_level == 4)
+                                        @if($spj->status_level == 5)
                                             <a href="{{ route('bendahara.spj.print', $spj) }}" target="_blank" class="btn btn-sm btn-secondary shadow-sm font-weight-bold" title="Cetak PDF">
                                                 <i class="fas fa-print"></i>
                                             </a>
