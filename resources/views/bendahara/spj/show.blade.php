@@ -84,46 +84,56 @@
                     <h5 class="mb-0">Dokumen Pendukung</h5>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover align-middle mb-0">
-                            <thead class="table-light text-secondary">
-                                <tr>
-                                    <th style="width: 60%;" class="text-left align-middle">Nama Dokumen</th>
-                                    <th style="width: 40%;" class="text-center align-middle">File / Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($spj->jenisSpj->dokumenPendukungs as $dp)
-                                    @php
-                                        $uploadedDokumen = $spj->dokumens->firstWhere('dokumen_pendukung_id', $dp->id);
-                                    @endphp
-                                    <tr>
-                                        <td class="align-middle text-left font-weight-bold">
+                    <div class="d-flex flex-column" style="gap: 15px;">
+                        @foreach($spj->jenisSpj->dokumenPendukungs as $dp)
+                            @php
+                                $uploadedDokumen = $spj->dokumens->firstWhere('dokumen_pendukung_id', $dp->id);
+                            @endphp
+
+                            <div class="border rounded p-3 bg-white shadow-sm
+                                {{ $uploadedDokumen ? 'border-success' : ($dp->is_wajib ? 'border-danger' : 'border-light') }}"
+                                style="border-width: 1.5px !important;">
+
+                                <div class="row align-items-center">
+
+                                    <div class="col-md-5 mb-2 mb-md-0">
+                                        <p class="mb-1 font-weight-bold text-dark" style="line-height: 1.4; font-size: 0.95rem;">
                                             {{ $dp->nama_dokumen }}
                                             @if($dp->is_wajib)
-                                                <span class="text-danger" title="Wajib">*</span>
+                                                <span class="text-danger ml-1" title="Wajib">*</span>
                                             @endif
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            @if($uploadedDokumen)
-                                                <div class="d-flex flex-column align-items-center" style="gap: 5px;">
-                                                    <span class="badge bg-success mb-1"><i class="fas fa-check-circle mr-1"></i>Sudah Diunggah</span>
-                                                    <a href="{{ asset('storage/' . $uploadedDokumen->file_path) }}" target="_blank" class="btn btn-xs btn-info text-white shadow-sm font-weight-bold">
-                                                        <i class="fas fa-eye mr-1"></i> Buka File
-                                                    </a>
-                                                </div>
+                                        </p>
+                                        @if(!$dp->is_wajib)
+                                            <span class="badge badge-pill" style="background-color: #e9ecef; color: #6c757d; font-size: 0.75rem;">Opsional</span>
+                                        @endif
+                                    </div>
+
+
+                                    <div class="col-md-7 mb-2 mb-md-0 d-flex align-items-center justify-content-md-end justify-content-start" style="gap: 10px;">
+                                        @if($uploadedDokumen)
+                                            <span class="badge badge-pill badge-success" style="font-size: 0.85rem; padding: 6px 12px;">
+                                                <i class="fas fa-check-circle mr-1"></i>Sudah Diunggah
+                                            </span>
+                                            <a href="{{ asset('storage/' . $uploadedDokumen->file_path) }}" target="_blank"
+                                               class="btn btn-sm btn-info text-white font-weight-bold shadow-sm" style="font-size: 0.85rem;">
+                                                <i class="fas fa-external-link-alt mr-1"></i>Buka File
+                                            </a>
+                                        @else
+                                            @if($dp->is_wajib)
+                                                <span class="badge badge-pill badge-danger" style="font-size: 0.85rem; padding: 6px 12px;">
+                                                    <i class="fas fa-exclamation-circle mr-1"></i>Belum Diunggah
+                                                </span>
                                             @else
-                                                @if($dp->is_wajib)
-                                                    <span class="badge bg-danger"><i class="fas fa-exclamation-circle mr-1"></i>Belum Diunggah (Wajib)</span>
-                                                @else
-                                                    <span class="badge bg-secondary"><i class="fas fa-clock mr-1"></i>Belum Diunggah (Opsional)</span>
-                                                @endif
+                                                <span class="badge badge-pill badge-secondary" style="font-size: 0.85rem; padding: 6px 12px;">
+                                                    <i class="fas fa-minus-circle mr-1"></i>Tidak Diunggah
+                                                </span>
                                             @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                        @endif
+                                    </div>
+
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
