@@ -9,19 +9,25 @@
 @section('content')
 <div class="container-fluid">
     <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card bg-warning text-dark">
-                <div class="card-body">
-                    <h5 class="card-title">SPJ Menunggu Verifikasi</h5>
+        <div class="col-lg-6 col-6">
+            <div class="small-box bg-warning shadow-sm">
+                <div class="inner">
                     <h3>{{ $stats['total_masuk'] }}</h3>
+                    <p>SPJ Menunggu Verifikasi</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-clock"></i>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h5 class="card-title">SPJ Selesai (Tercairkan)</h5>
+        <div class="col-lg-6 col-6">
+            <div class="small-box bg-success shadow-sm">
+                <div class="inner">
                     <h3>{{ $stats['total_selesai'] }}</h3>
+                    <p>SPJ Selesai (Tercairkan)</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-check-circle"></i>
                 </div>
             </div>
         </div>
