@@ -42,5 +42,4 @@ Route::middleware(['auth', 'role:4'])->prefix('bendahara')->name('bendahara.')->
     Route::get('spj/{spj}/print', [\App\Http\Controllers\Bendahara\SpjController::class, 'printPdf'])->name('spj.print');
 });
 
-// Public Route
 Route::get('/public/spj/{uuid}', [\App\Http\Controllers\PublicSpjController::class, 'verify'])->name('public.spj.verify');

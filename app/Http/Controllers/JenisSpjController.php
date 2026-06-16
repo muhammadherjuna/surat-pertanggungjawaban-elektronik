@@ -74,7 +74,7 @@ class JenisSpjController extends Controller
         try {
             $jenis_spj->update(['nama_jenis' => $request->nama_jenis]);
 
-            // Track IDs to keep
+
             $keepIds = [];
             if ($request->has('dokumen') && is_array($request->dokumen)) {
                 foreach ($request->dokumen as $doc) {
@@ -97,7 +97,7 @@ class JenisSpjController extends Controller
                 }
             }
 
-            // Delete removed documents
+
             $jenis_spj->dokumenPendukungs()->whereNotIn('id', $keepIds)->delete();
 
             DB::commit();

@@ -13,7 +13,6 @@ class SpjController extends Controller
     public function index()
     {
         $spjs = Spj::whereIn('status_level', [3, 4])->latest()->get();
-        // Stats
         $stats = [
             'total_masuk' => Spj::where('status_level', 3)->count(),
             'total_selesai' => Spj::where('status_level', 4)->count(),

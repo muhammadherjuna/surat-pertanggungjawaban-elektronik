@@ -43,7 +43,6 @@
                         </div>
                     @endforeach
                 @else
-                    <!-- Jika belum ada dokumen -->
                     <div class="row dokumen-row align-items-center mb-2">
                         <div class="col-md-7">
                             <input type="text" name="dokumen[0][nama_dokumen]" class="form-control" placeholder="Nama Dokumen (Contoh: Kuitansi, Nota, dll)">

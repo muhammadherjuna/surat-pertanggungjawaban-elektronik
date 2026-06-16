@@ -66,23 +66,23 @@
                     <tbody id="spjTableBody">
                         @forelse($spjs as $index => $spj)
                             <tr class="spj-row" data-deskripsi="{{ strtolower($spj->deskripsi) }}" data-tipe="{{ $spj->filter_tipe }}">
-                                {{-- Nomor Urut --}}
+
                                 <td class="text-center text-muted align-middle">{{ $spjs->firstItem() + $index }}</td>
 
-                                {{-- Deskripsi --}}
+
                                 <td class="text-left align-middle">
                                     <span class="fw-semibold text-wrap">{{ $spj->deskripsi }}</span>
                                 </td>
 
-                                {{-- Jenis SPJ --}}
+
                                 <td class="text-left align-middle">{{ $spj->jenisSpj->nama_jenis }}</td>
 
-                                {{-- Nominal --}}
+
                                 <td class="text-left align-middle font-monospace text-nowrap">
                                     Rp {{ number_format($spj->nominal, 0, ',', '.') }}
                                 </td>
 
-                                {{-- Status --}}
+
                                 <td class="text-left align-middle">
                                     @if($spj->is_rejected)
                                         <span class="badge bg-danger"><i class="fas fa-redo mr-2"></i>Perlu Revisi</span>
@@ -99,10 +99,10 @@
                                     @endif
                                 </td>
 
-                                {{-- Aksi --}}
+
                                 <td class="align-middle text-center">
                                     <div class="d-flex justify-content-center flex-wrap" style="gap: 8px;">
-                                        {{-- Detail selalu ada --}}
+
                                         <a href="{{ route('operator.spj.show', $spj) }}"
                                            class="btn btn-sm btn-outline-info"
                                            title="Lihat Detail">
@@ -110,14 +110,14 @@
                                         </a>
 
                                         @if($spj->status_level == 0 || $spj->is_rejected)
-                                            {{-- Edit --}}
+
                                             <a href="{{ route('operator.spj.edit', $spj) }}"
                                                class="btn btn-sm btn-outline-warning"
                                                title="Edit SPJ">
                                                 <i class="fas fa-edit"></i>
                                             </a>
 
-                                            {{-- Ajukan via SweetAlert2 --}}
+
                                             <form id="submit-form-{{ $spj->id }}" action="{{ route('operator.spj.submit', $spj) }}" method="POST" class="d-none">
                                                 @csrf
                                             </form>
@@ -131,7 +131,7 @@
                                                 <i class="fas fa-paper-plane"></i>
                                             </button>
 
-                                            {{-- Hapus (hanya jika bukan sedang revisi) --}}
+
                                             @if(!$spj->is_rejected)
                                             <form action="{{ route('operator.spj.destroy', $spj) }}" method="POST" class="m-0 p-0"
                                                   data-confirm="SPJ ini akan dihapus secara permanen dan tidak dapat dikembalikan."

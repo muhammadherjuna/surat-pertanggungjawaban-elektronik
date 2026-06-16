@@ -25,11 +25,7 @@
     @endif
 
     <div class="row">
-        {{-- ===================== --}}
-        {{-- KOLOM KIRI: Info SPJ  --}}
-        {{-- ===================== --}}
         <div class="col-md-4">
-            {{-- Card Info SPJ --}}
             <div class="card shadow-sm mb-3">
                 <div class="card-header bg-white py-3">
                     <h5 class="mb-0 font-weight-bold text-dark"><i class="fas fa-file-invoice text-primary mr-2"></i>Informasi SPJ</h5>
@@ -70,7 +66,6 @@
                 </div>
             </div>
 
-            {{-- Card Tindakan --}}
             @if($spj->status_level == $targetLevel && !$spj->is_rejected)
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-white py-3">
@@ -103,9 +98,6 @@
             @endif
         </div>
 
-        {{-- ================================ --}}
-        {{-- KOLOM KANAN: Evaluasi Dokumen    --}}
-        {{-- ================================ --}}
         <div class="col-md-8">
             <div class="card shadow-sm">
                 <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
@@ -127,7 +119,7 @@
                                     style="border-width: 1.5px !important;">
 
                                     <div class="row align-items-start">
-                                        {{-- Nama Dokumen --}}
+
                                         <div class="col-md-4 mb-2 mb-md-0">
                                             <p class="mb-1 font-weight-bold text-dark" style="line-height: 1.4; font-size: 0.92rem;">
                                                 {{ $dp->nama_dokumen }}
@@ -140,7 +132,7 @@
                                             @endif
                                         </div>
 
-                                        {{-- Status File --}}
+
                                         <div class="col-md-3 mb-2 mb-md-0 d-flex flex-column align-items-start justify-content-center">
                                             @if($uploadedDokumen)
                                                 <span class="badge badge-pill badge-success mb-2" style="font-size: 0.8rem; padding: 5px 10px;">
@@ -165,7 +157,7 @@
                                             @endif
                                         </div>
 
-                                        {{-- Komentar Revisi --}}
+
                                         <div class="col-md-5">
                                             @if($uploadedDokumen)
                                                 <label class="text-muted mb-1" style="font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">

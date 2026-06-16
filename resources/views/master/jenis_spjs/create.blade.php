@@ -23,7 +23,6 @@
             <hr>
             <h4>Dokumen Pendukung</h4>
             <div id="dokumen-container">
-                <!-- Baris Dokumen Pertama -->
                 <div class="row dokumen-row align-items-center mb-2">
                     <div class="col-md-7">
                         <input type="text" name="dokumen[0][nama_dokumen]" class="form-control" placeholder="Nama Dokumen (Contoh: Kuitansi, Nota, dll)">

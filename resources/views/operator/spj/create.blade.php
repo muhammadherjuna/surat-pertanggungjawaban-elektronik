@@ -124,6 +124,6 @@
     }
 
     filterTipe.addEventListener('change', toggleFilterNo);
-    toggleFilterNo(); // run on load
+    toggleFilterNo();
 </script>
 @stop

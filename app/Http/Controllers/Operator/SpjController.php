@@ -133,12 +133,10 @@ class SpjController extends Controller
             'filter_no' => $request->filter_no,
             'nominal' => $request->nominal,
             'rekening_id' => $request->rekening_id,
-            'status_level' => 0, // Reset status level to 0 if updated
-            'is_rejected' => false, // Reset rejection status
+            'status_level' => 0,
+            'is_rejected' => false,
         ]);
 
-        // When SPJ is re-submitted after rejection, we might want to clear rejection marks
-        // Wait, the requirement says whole SPJ is rejected, so resetting is_rejected and status_level to 0 is good, it will go through approval again.
 
         return redirect()->route('operator.spj.show', $spj)->with('success', 'SPJ berhasil diperbarui.');
     }
@@ -174,7 +172,6 @@ class SpjController extends Controller
 
         $path = $request->file('file')->store('spj_dokumens', 'public');
 
-        // Check if there is existing document of the same type, update it
         $existing = $spj->dokumens()->where('dokumen_pendukung_id', $request->dokumen_pendukung_id)->first();
         if ($existing) {
             if (Storage::disk('public')->exists($existing->file_path)) {
@@ -182,7 +179,7 @@ class SpjController extends Controller
             }
             $existing->update([
                 'file_path' => $path,
-                'komentar_revisi' => null // clear comment since newly uploaded
+                'komentar_revisi' => null
             ]);
         } else {
             SpjDokumen::create([
@@ -192,7 +189,7 @@ class SpjController extends Controller
             ]);
         }
         
-        // Every time a document is updated after rejection, we should probably reset SPJ to Level 0
+
         if ($spj->is_rejected) {
             $spj->update([
                 'status_level' => 0,
@@ -223,12 +220,12 @@ class SpjController extends Controller
     {
         if ($spj->user_id !== Auth::id()) abort(403);
 
-        // Hanya bisa diajukan jika masih di draft (level 0) atau perlu revisi
+
         if ($spj->status_level > 0 && !$spj->is_rejected) {
             return redirect()->route('operator.spj.index')->with('error', 'SPJ ini sudah dalam proses persetujuan.');
         }
 
-        // Validasi: hanya dokumen pendukung yang WAJIB (is_wajib = true) yang harus sudah diunggah.
+
         $mandatoryDocs = $spj->jenisSpj->dokumenPendukungs()->where('is_wajib', true)->get();
         
         $missingDocs = [];
@@ -243,7 +240,7 @@ class SpjController extends Controller
             return redirect()->back()->with('error', 'Gagal mengajukan SPJ. Dokumen wajib berikut belum diunggah: ' . implode(', ', $missingDocs) . '.');
         }
 
-        // Set status menjadi "Diajukan" (level 1, masuk antrian approval Kabid)
+
         $spj->update([
             'is_rejected' => false,
             'status_level' => 1,

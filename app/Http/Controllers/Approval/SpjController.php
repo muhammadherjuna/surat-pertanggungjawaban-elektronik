@@ -11,9 +11,6 @@ class SpjController extends Controller
 {
     private function getTargetStatusLevel()
     {
-        // Level 1 (Kabid) checks status_level = 1
-        // Level 2 (Sekdin) checks status_level = 2
-        // Level 3 (Kadin) checks status_level = 3
         return Auth::user()->role->level;
     }
 
@@ -32,9 +29,7 @@ class SpjController extends Controller
     {
         $targetLevel = $this->getTargetStatusLevel();
         
-        // Ensure they only view SPJ that are at their level or above
-        // For simplicity, let them view any SPJ but only action on their level
-        
+
         $spj->load(['jenisSpj.dokumenPendukungs', 'rekening', 'dokumens.dokumenPendukung']);
         return view('approval.spj.show', compact('spj', 'targetLevel'));
     }
@@ -58,9 +53,7 @@ class SpjController extends Controller
             return back()->with('error', 'SPJ ini tidak dapat ditolak saat ini.');
         }
 
-        // Kebutuhan revisi: menyimpan komentar pada setiap dokumen yang perlu direvisi
-        // Input: array 'komentar' dengan key id dokumen, misal komentar[dokumen_id]
-        
+
         if ($request->has('komentar') && is_array($request->komentar)) {
             foreach ($request->komentar as $dokumenId => $komentarText) {
                 if (!empty($komentarText)) {
