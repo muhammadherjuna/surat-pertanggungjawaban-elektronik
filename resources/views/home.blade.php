@@ -236,16 +236,14 @@
                                                     <span class="badge bg-primary"><i class="fas fa-check mr-1"></i>Disetujui Kabid</span>
                                                 @endif
                                             @elseif($spj->status_level == 3)
-                                                @if($roleLevel == 3)
-                                                    {{-- Dari sudut pandang Kadin: ini adalah ajuan yang sudah disetujui Sekdin, masuk ke meja Kadin --}}
-                                                    <span class="badge bg-warning text-dark"><i class="fas fa-inbox mr-1"></i>Ajuan dari Sekdin</span>
-                                                @elseif($roleLevel == 4)
-                                                    {{-- Dari sudut pandang Bendahara: menunggu verifikasi --}}
+                                                <span class="badge bg-warning text-dark"><i class="fas fa-check-double mr-1"></i>Disetujui Sekdin</span>
+                                            @elseif($spj->status_level == 4)
+                                                @if($roleLevel == 4)
                                                     <span class="badge bg-info text-dark"><i class="fas fa-clock mr-1"></i>Menunggu Verifikasi</span>
                                                 @else
-                                                    <span class="badge bg-info text-dark"><i class="fas fa-check-double mr-1"></i>Disetujui Sekdin</span>
+                                                    <span class="badge bg-success"><i class="fas fa-check-double mr-1"></i>Disetujui Kadin</span>
                                                 @endif
-                                            @elseif($spj->status_level == 4)
+                                            @elseif($spj->status_level == 5)
                                                 <span class="badge bg-success"><i class="fas fa-check-circle mr-1"></i>Terverifikasi</span>
                                             @endif
                                         </td>

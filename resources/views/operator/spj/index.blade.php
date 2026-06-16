@@ -84,6 +84,8 @@
                                     @elseif($spj->status_level == 3)
                                         <span class="badge bg-warning text-dark"><i class="fas fa-check-double mr-2"></i>Disetujui Sekdin</span>
                                     @elseif($spj->status_level == 4)
+                                        <span class="badge bg-info text-dark"><i class="fas fa-check-double mr-2"></i>Disetujui Kadin</span>
+                                    @elseif($spj->status_level == 5)
                                         <span class="badge bg-success"><i class="fas fa-check-circle mr-2"></i>Terverifikasi</span>
                                     @endif
                                 </td>

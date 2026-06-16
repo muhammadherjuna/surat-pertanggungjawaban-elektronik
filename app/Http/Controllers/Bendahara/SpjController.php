@@ -12,17 +12,17 @@ class SpjController extends Controller
 {
     public function index()
     {
-        $spjs = Spj::whereIn('status_level', [3, 4])->latest()->get();
+        $spjs = Spj::whereIn('status_level', [4, 5])->latest()->get();
         $stats = [
-            'total_masuk' => Spj::where('status_level', 3)->count(),
-            'total_selesai' => Spj::where('status_level', 4)->count(),
+            'total_masuk' => Spj::where('status_level', 4)->count(),
+            'total_selesai' => Spj::where('status_level', 5)->count(),
         ];
         return view('bendahara.spj.index', compact('spjs', 'stats'));
     }
 
     public function show(Spj $spj)
     {
-        if ($spj->status_level < 3) abort(404);
+        if ($spj->status_level < 4) abort(404);
         
         $spj->load(['jenisSpj.dokumenPendukungs', 'rekening', 'dokumens.dokumenPendukung']);
         return view('bendahara.spj.show', compact('spj'));
@@ -30,18 +30,18 @@ class SpjController extends Controller
 
     public function verify(Spj $spj)
     {
-        if ($spj->status_level !== 3 || $spj->is_rejected) {
+        if ($spj->status_level !== 4 || $spj->is_rejected) {
             return back()->with('error', 'SPJ ini tidak dapat diverifikasi.');
         }
 
-        $spj->update(['status_level' => 4]);
+        $spj->update(['status_level' => 5]);
 
         return redirect()->route('bendahara.spj.index')->with('success', 'SPJ berhasil diverifikasi dan diselesaikan.');
     }
 
     public function printPdf(Spj $spj)
     {
-        if ($spj->status_level !== 4) {
+        if ($spj->status_level !== 5) {
             return back()->with('error', 'Hanya SPJ yang telah selesai diverifikasi yang dapat dicetak.');
         }
 

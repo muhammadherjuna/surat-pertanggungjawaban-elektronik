@@ -41,12 +41,12 @@ class HomeController extends Controller
                 ->count();
 
             $stats['selesai'] = (clone $query)
-                ->where('status_level', 4)
+                ->where('status_level', 5)
                 ->where('is_rejected', false)
                 ->count();
 
             $stats['total_nominal_selesai'] = (clone $query)
-                ->where('status_level', 4)
+                ->where('status_level', 5)
                 ->where('is_rejected', false)
                 ->sum('nominal');
                 
@@ -79,9 +79,9 @@ class HomeController extends Controller
             $latestSpjs = $allVisibleQuery->latest('submitted_at')->latest()->take(10)->get();
             
         } elseif ($roleLevel == 4) {
-            $pendingQuery = Spj::where('status_level', 3)->where('is_rejected', false);
-            $verifiedQuery = Spj::where('status_level', 4)->where('is_rejected', false);
-            $allVisibleQuery = Spj::whereIn('status_level', [3, 4])->where('is_rejected', false);
+            $pendingQuery = Spj::where('status_level', 4)->where('is_rejected', false);
+            $verifiedQuery = Spj::where('status_level', 5)->where('is_rejected', false);
+            $allVisibleQuery = Spj::whereIn('status_level', [4, 5])->where('is_rejected', false);
             
             $stats['perlu_tindakan'] = $pendingQuery->count();
             $stats['menunggu_verifikasi'] = $verifiedQuery->count();

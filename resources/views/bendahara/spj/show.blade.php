@@ -58,7 +58,7 @@
                 </div>
             </div>
 
-            @if($spj->status_level == 3)
+            @if($spj->status_level == 4)
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0">Tindakan Bendahara</h5>
