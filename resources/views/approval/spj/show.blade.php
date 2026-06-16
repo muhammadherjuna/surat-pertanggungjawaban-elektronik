@@ -82,7 +82,7 @@
                     </p>
                     <div class="d-grid gap-2">
                         <form action="{{ route('approval.spj.approve', $spj) }}" method="POST"
-                              data-confirm="Setelah disetujui, SPJ akan diteruskan ke tahap berikutnya."
+                              data-confirm-html='<p>SPJ <strong>&quot;{{ Str::limit($spj->deskripsi, 80) }}&quot;</strong> akan disetujui dan diteruskan ke tahap berikutnya.</p><div class="alert alert-info text-left mb-0 mt-2" style="font-size:0.88rem;"><i class="fas fa-info-circle mr-1"></i> Pastikan Anda sudah memeriksa seluruh dokumen pendukung.</div>'
                               data-confirm-title="Setujui SPJ ini?"
                               data-confirm-type="success">
                             @csrf
@@ -91,7 +91,7 @@
                             </button>
                         </form>
                         <button type="button" class="btn btn-danger btn-block font-weight-bold shadow-sm mt-2"
-                                data-confirm="SPJ akan dikembalikan ke Operator untuk diperbaiki."
+                                data-confirm-html='<p>SPJ <strong>&quot;{{ Str::limit($spj->deskripsi, 80) }}&quot;</strong> akan dikembalikan ke Operator untuk diperbaiki.</p><div class="alert alert-warning text-left mb-0 mt-2" style="font-size:0.88rem;"><i class="fas fa-exclamation-triangle mr-1"></i> Pastikan Anda sudah mengisi komentar revisi pada dokumen yang bermasalah.</div>'
                                 data-confirm-title="Tolak SPJ ini?"
                                 data-confirm-type="reject"
                                 data-confirm-submit="#reject-form">

@@ -74,7 +74,7 @@
                     <p class="text-muted">Sebagai Bendahara, Anda adalah tahap akhir validasi. Jika sudah diverifikasi dan dicairkan, klik Verifikasi Final.</p>
                     
                     <form action="{{ route('bendahara.spj.verify', $spj) }}" method="POST" class="d-inline"
-                          data-confirm="SPJ akan ditandai sebagai Terverifikasi. Tindakan ini tidak bisa dibatalkan."
+                          data-confirm-html='<p>SPJ <strong>&quot;{{ Str::limit($spj->deskripsi, 80) }}&quot;</strong> akan ditandai sebagai <strong>Terverifikasi</strong>.</p><div class="alert alert-danger text-left mb-0 mt-2" style="font-size:0.88rem;"><i class="fas fa-exclamation-triangle mr-1"></i> <strong>Perhatian:</strong> Tindakan ini bersifat final dan tidak dapat dibatalkan.</div>'
                           data-confirm-title="Verifikasi Final SPJ ini?"
                           data-confirm-type="verify">
                         @csrf

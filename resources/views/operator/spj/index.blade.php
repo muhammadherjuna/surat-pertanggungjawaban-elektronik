@@ -117,47 +117,19 @@
                                                 <i class="fas fa-edit"></i>
                                             </a>
 
-                                            {{-- Ajukan --}}
-                                            <button type="button" 
-                                                    class="btn btn-sm btn-success" 
-                                                    data-toggle="modal" 
-                                                    data-target="#submitModal-{{ $spj->id }}" 
-                                                    title="Ajukan ke Persetujuan">
+                                            {{-- Ajukan via SweetAlert2 --}}
+                                            <form id="submit-form-{{ $spj->id }}" action="{{ route('operator.spj.submit', $spj) }}" method="POST" class="d-none">
+                                                @csrf
+                                            </form>
+                                            <button type="button"
+                                                    class="btn btn-sm btn-success"
+                                                    title="Ajukan ke Persetujuan"
+                                                    data-swal-submit="#submit-form-{{ $spj->id }}"
+                                                    data-swal-title="Konfirmasi Pengajuan"
+                                                    data-swal-type="submit"
+                                                    data-swal-html='<p>Anda akan mengajukan SPJ <strong>&quot;{{ Str::limit($spj->deskripsi, 80) }}&quot;</strong> untuk tahapan persetujuan.</p><div class="alert alert-warning text-left mb-0 mt-2" style="font-size:0.88rem;"><i class="fas fa-exclamation-triangle mr-1"></i> <strong>Perhatian:</strong> Pastikan semua dokumen bukti pendukung wajib sudah diunggah dengan lengkap.</div>'>
                                                 <i class="fas fa-paper-plane"></i>
                                             </button>
-
-                                            <!-- Modal Konfirmasi Ajukan -->
-                                            <div class="modal fade" id="submitModal-{{ $spj->id }}" tabindex="-1" role="dialog" aria-labelledby="submitModalLabel-{{ $spj->id }}" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content border-0 shadow">
-                                                        <div class="modal-header bg-success text-white">
-                                                            <h5 class="modal-title font-weight-bold" id="submitModalLabel-{{ $spj->id }}">
-                                                                <i class="fas fa-paper-plane mr-2"></i> Konfirmasi Pengajuan
-                                                            </h5>
-                                                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body text-left text-dark">
-                                                            <p>Apakah Anda yakin ingin mengajukan SPJ <strong>"{{ $spj->deskripsi }}"</strong> untuk tahapan persetujuan?</p>
-                                                            <div class="alert alert-warning mt-3 mb-0" role="alert">
-                                                                <i class="fas fa-exclamation-triangle mr-2"></i> <strong>Perhatian:</strong> Pastikan semua dokumen bukti pendukung wajib sudah diunggah dengan lengkap sebelum mengajukan.
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer bg-light">
-                                                            <button type="button" class="btn btn-secondary font-weight-bold" data-dismiss="modal">
-                                                                <i class="fas fa-times mr-1"></i> Batal
-                                                            </button>
-                                                            <form action="{{ route('operator.spj.submit', $spj) }}" method="POST" class="m-0 p-0">
-                                                                @csrf
-                                                                <button type="submit" class="btn btn-success font-weight-bold">
-                                                                    <i class="fas fa-check mr-1"></i> Ya, Ajukan Sekarang
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                             {{-- Hapus (hanya jika bukan sedang revisi) --}}
                                             @if(!$spj->is_rejected)
