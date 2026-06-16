@@ -11,17 +11,6 @@
 @section('content')
 <div class="container-fluid">
 
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show auto-close" role="alert">
-            <i class="fas fa-check-circle mr-2"></i> {{ session('success') }}
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show auto-close" role="alert">
-            <i class="fas fa-exclamation-circle mr-2"></i> {{ session('error') }}
-        </div>
-    @endif
-
     <div class="card shadow-sm">
         <div class="card-header bg-white py-3">
             <h5 class="mb-0 text-muted font-weight-bold">
