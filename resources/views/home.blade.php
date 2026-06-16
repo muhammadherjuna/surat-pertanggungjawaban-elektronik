@@ -47,28 +47,28 @@
                 <div class="small-box bg-danger shadow-sm">
                     <div class="inner"><h3>{{ $stats['perlu_tindakan'] }}</h3><p>Perlu Tindakan (Draft/Revisi)</p></div>
                     <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
-                    <a href="{{ route('operator.spj.index') }}?status=draft" class="small-box-footer">Lihat di Transaksi SPJ <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('operator.spj.index') }}?status=draft" class="small-box-footer">Lihat di Daftar SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-info shadow-sm">
                     <div class="inner"><h3>{{ $stats['menunggu_verifikasi'] }}</h3><p>Menunggu Persetujuan</p></div>
                     <div class="icon"><i class="fas fa-hourglass-half"></i></div>
-                    <a href="{{ route('operator.spj.index') }}?status=proses" class="small-box-footer">Lihat di Transaksi SPJ <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('operator.spj.index') }}?status=proses" class="small-box-footer">Lihat di Daftar SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-success shadow-sm">
                     <div class="inner"><h3>{{ $stats['selesai'] }}</h3><p>SPJ Selesai (Terverifikasi)</p></div>
                     <div class="icon"><i class="fas fa-check-circle"></i></div>
-                    <a href="{{ route('operator.spj.index') }}?status=selesai" class="small-box-footer">Lihat di Transaksi SPJ <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('operator.spj.index') }}?status=selesai" class="small-box-footer">Lihat di Daftar SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-3 col-6">
                 <div class="small-box bg-purple shadow-sm">
                     <div class="inner"><h3 class="text-nowrap">Rp {{ number_format($stats['total_nominal_selesai'], 0, ',', '.') }}</h3><p>Total Nilai SPJ Selesai</p></div>
                     <div class="icon"><i class="fas fa-wallet"></i></div>
-                    <a href="{{ route('operator.spj.index') }}?status=selesai" class="small-box-footer">Lihat di Transaksi SPJ <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('operator.spj.index') }}?status=selesai" class="small-box-footer">Lihat di Daftar SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
 
@@ -283,7 +283,7 @@
                 @if($roleLevel == 0)
                     <div class="card-footer bg-white text-right py-2">
                         <a href="{{ route('operator.spj.index') }}" class="text-primary small font-weight-bold">
-                            Lihat Semua Transaksi SPJ Saya <i class="fas fa-arrow-right ml-1"></i>
+                            Lihat Semua Daftar SPJ Saya <i class="fas fa-arrow-right ml-1"></i>
                         </a>
                     </div>
                 @elseif(in_array($roleLevel, [1, 2, 3]))

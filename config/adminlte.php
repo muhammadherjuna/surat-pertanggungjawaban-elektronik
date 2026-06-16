@@ -306,7 +306,7 @@ return [
             'url'  => 'home',
             'icon' => 'fas fa-fw fa-home',
         ],
-        ['header' => 'TRANSAKSI SPJ'],
+        ['header' => 'PENGELOLAAN SPJ'],
         [
             'text' => 'SPJ Saya',
             'url'  => 'operator/spj',
