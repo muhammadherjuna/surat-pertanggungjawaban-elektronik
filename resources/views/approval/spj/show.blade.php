@@ -110,7 +110,7 @@
             <div class="card shadow-sm">
                 <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                     <h5 class="mb-0 font-weight-bold text-dark"><i class="fas fa-folder-open text-primary mr-2"></i>Evaluasi Dokumen Pendukung</h5>
-                    <small class="text-muted"><span class="text-danger font-weight-bold">*</span> = Wajib diunggah</small>
+                    <small class="text-muted ml-auto text-right" style="white-space: nowrap;"><span class="text-danger font-weight-bold">*</span> = Wajib diunggah</small>
                 </div>
                 <div class="card-body p-3">
                     <form id="reject-form" action="{{ route('approval.spj.reject', $spj) }}" method="POST">
