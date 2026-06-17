@@ -137,19 +137,6 @@
                                             </form>
                                         @endif
 
-                                        @if($spj->status_level == 1)
-                                            <form action="{{ route('operator.spj.cancel', $spj) }}" method="POST" class="m-0 p-0"
-                                                  data-confirm="Anda yakin ingin menarik pengajuan ini kembali ke status Draft?"
-                                                  data-confirm-title="Tarik Ajuan?"
-                                                  data-confirm-type="warning">
-                                                @csrf
-                                                <button type="submit"
-                                                        class="btn btn-sm btn-outline-warning"
-                                                        title="Tarik Ajuan">
-                                                    <i class="fas fa-undo"></i>
-                                                </button>
-                                            </form>
-                                        @endif
 
                                         @if($spj->status_level == 5)
                                             <a href="{{ route('operator.spj.print', $spj) }}" target="_blank"
