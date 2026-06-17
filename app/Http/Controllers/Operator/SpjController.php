@@ -237,7 +237,7 @@ class SpjController extends Controller
         }
 
         if (count($missingDocs) > 0) {
-            return redirect()->back()->with('error', 'Gagal mengajukan SPJ. Dokumen wajib berikut belum diunggah: ' . implode(', ', $missingDocs) . '.');
+            return redirect()->back()->with('error', 'Gagal mengajukan SPJ. Pastikan seluruh dokumen wajib telah Anda unggah.');
         }
 
 
@@ -247,7 +247,7 @@ class SpjController extends Controller
             'submitted_at' => now(),
         ]);
 
-        return redirect()->route('operator.spj.index')->with('success', "SPJ '{$spj->deskripsi}' berhasil diajukan dan menunggu persetujuan Kabid.");
+        return redirect()->route('operator.spj.index')->with('success', "SPJ berhasil diajukan dan sedang menunggu persetujuan Kabid.");
     }
 }
 
