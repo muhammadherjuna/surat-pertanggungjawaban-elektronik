@@ -150,7 +150,7 @@ class DatabaseSeeder extends Seeder
             'rekening_id' => $rekening2->id,
             'deskripsi' => 'Biaya perjalanan dinas ke Provinsi untuk koordinasi program kerja bulanan.',
             'nominal' => 2500000,
-            'filter_tipe' => 'LS',
+            'filter_tipe' => 'GU',
             'status_level' => 1, // Menunggu Kabid
             'is_rejected' => false,
             'submitted_at' => \Carbon\Carbon::now()->subHours(2),
