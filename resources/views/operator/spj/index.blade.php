@@ -123,7 +123,6 @@
                                             </button>
 
 
-                                            @if(!$spj->is_rejected)
                                             <form action="{{ route('operator.spj.destroy', $spj) }}" method="POST" class="m-0 p-0"
                                                   data-confirm="SPJ ini akan dihapus secara permanen dan tidak dapat dikembalikan."
                                                   data-confirm-title="Hapus SPJ ini?"
@@ -136,7 +135,6 @@
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
-                                            @endif
                                         @endif
                                     </div>
                                 </td>

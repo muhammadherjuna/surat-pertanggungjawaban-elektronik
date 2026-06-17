@@ -52,8 +52,19 @@ class SpjController extends Controller
         if ($spj->status_level !== $targetLevel || $spj->is_rejected) {
             return back()->with('error', 'SPJ ini tidak dapat ditolak saat ini.');
         }
+        $hasComment = false;
+        if ($request->has('komentar') && is_array($request->komentar)) {
+            foreach ($request->komentar as $komentarText) {
+                if (!empty(trim($komentarText))) {
+                    $hasComment = true;
+                    break;
+                }
+            }
+        }
 
-
+        if (!$hasComment) {
+            return back()->with('error', 'Gagal menolak SPJ. Silakan berikan alasan revisi pada minimal salah satu dokumen.');
+        }
         if ($request->has('komentar') && is_array($request->komentar)) {
             foreach ($request->komentar as $dokumenId => $komentarText) {
                 if (!empty($komentarText)) {
