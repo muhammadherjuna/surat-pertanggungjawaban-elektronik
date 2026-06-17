@@ -94,20 +94,12 @@
                                 <td class="align-middle text-center">
                                     <div class="d-flex justify-content-center flex-wrap" style="gap: 8px;">
 
-                                        @if($spj->status_level > 0 && !$spj->is_rejected)
-                                            <a href="{{ route('operator.spj.show', $spj) }}"
-                                               class="btn btn-sm btn-info text-white"
-                                               style="min-width: 90px;"
-                                               title="Lihat Detail">
-                                                <i class="fas fa-eye mr-1"></i> Detail
-                                            </a>
-                                        @else
-                                            <a href="{{ route('operator.spj.show', $spj) }}"
-                                               class="btn btn-sm btn-outline-info"
-                                               title="Lihat Detail">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        @endif
+                                        <a href="{{ route('operator.spj.show', $spj) }}"
+                                           class="btn btn-sm btn-outline-info"
+                                           title="Lihat Detail">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+
                                         @if($spj->status_level == 0 || $spj->is_rejected)
 
                                             <a href="{{ route('operator.spj.edit', $spj) }}"
@@ -152,18 +144,18 @@
                                                   data-confirm-type="warning">
                                                 @csrf
                                                 <button type="submit"
-                                                        class="btn btn-sm btn-warning text-dark"
+                                                        class="btn btn-sm btn-outline-warning"
                                                         title="Tarik Ajuan">
-                                                    <i class="fas fa-undo mr-1"></i> Tarik Ajuan
+                                                    <i class="fas fa-undo"></i>
                                                 </button>
                                             </form>
                                         @endif
 
                                         @if($spj->status_level == 5)
                                             <a href="{{ route('operator.spj.print', $spj) }}" target="_blank"
-                                               class="btn btn-sm btn-success"
+                                               class="btn btn-sm btn-outline-success"
                                                title="Cetak SPJ (PDF)">
-                                                <i class="fas fa-file-pdf mr-1"></i> Cetak PDF
+                                                <i class="fas fa-file-pdf"></i>
                                             </a>
                                         @endif
                                     </div>
