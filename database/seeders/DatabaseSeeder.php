@@ -157,5 +157,53 @@ class DatabaseSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now()->subHours(2),
             'updated_at' => \Carbon\Carbon::now()->subHours(2)
         ]);
+
+        // Generate 9 more random dummy SPJs to make it 11 total
+        $statuses = [0, 1, 2, 3, 4, 5, 0, 1, 4]; // Mix of statuses
+        $rekeningIds = [$rekening1->id, $rekening2->id];
+        $jenisIds = [$jenisSpj1->id, $jenisSpj2->id];
+        $deskripsis = [
+            'Pembelian alat tulis kantor (ATK) untuk kebutuhan operasional bidang.',
+            'Langganan internet dan server bulan Juni 2026.',
+            'Honorarium narasumber bimbingan teknis SPBE.',
+            'Biaya rapat koordinasi lintas sektoral.',
+            'Pembelian lisensi perangkat lunak antivirus tahunan.',
+            'Perawatan rutin kendaraan dinas roda empat (Service & Ganti Oli).',
+            'Pengadaan seragam dinas untuk pegawai baru.',
+            'Biaya cetak brosur dan spanduk kampanye literasi digital.',
+            'Konsumsi rapat internal evaluasi kinerja bulanan.'
+        ];
+
+        for ($i = 0; $i < 9; $i++) {
+            $nominal = rand(5, 50) * 100000; // 500k to 5M
+            $status = $statuses[$i];
+            
+            $spjDummy = \App\Models\Spj::create([
+                'user_id' => $operator->id,
+                'jenis_spj_id' => $jenisIds[array_rand($jenisIds)],
+                'rekening_id' => $rekeningIds[array_rand($rekeningIds)],
+                'deskripsi' => $deskripsis[$i],
+                'nominal' => $nominal,
+                'filter_tipe' => 'GU',
+                'status_level' => $status,
+                'is_rejected' => ($status === 0 && rand(0, 1) == 1) ? true : false, // randomly reject some drafts
+                'submitted_at' => $status > 0 ? \Carbon\Carbon::now()->subDays(rand(1, 10)) : null,
+                'created_at' => \Carbon\Carbon::now()->subDays(rand(1, 15)),
+                'updated_at' => \Carbon\Carbon::now()
+            ]);
+
+            // Add dummy files if status > 0 (already submitted)
+            if ($status > 0) {
+                foreach ($spjDummy->jenisSpj->dokumenPendukungs as $dokumen) {
+                    if ($dokumen->is_wajib) {
+                        \App\Models\SpjDokumen::create([
+                            'spj_id' => $spjDummy->id,
+                            'dokumen_pendukung_id' => $dokumen->id,
+                            'file_path' => 'dummy_path.pdf'
+                        ]);
+                    }
+                }
+            }
+        }
     }
 }
