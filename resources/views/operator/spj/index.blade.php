@@ -94,12 +94,20 @@
                                 <td class="align-middle text-center">
                                     <div class="d-flex justify-content-center flex-wrap" style="gap: 8px;">
 
-                                        <a href="{{ route('operator.spj.show', $spj) }}"
-                                           class="btn btn-sm btn-outline-info"
-                                           title="Lihat Detail">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-
+                                        @if($spj->status_level > 0 && !$spj->is_rejected)
+                                            <a href="{{ route('operator.spj.show', $spj) }}"
+                                               class="btn btn-sm btn-info text-white"
+                                               style="min-width: 90px;"
+                                               title="Lihat Detail">
+                                                <i class="fas fa-eye mr-1"></i> Detail
+                                            </a>
+                                        @else
+                                            <a href="{{ route('operator.spj.show', $spj) }}"
+                                               class="btn btn-sm btn-outline-info"
+                                               title="Lihat Detail">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        @endif
                                         @if($spj->status_level == 0 || $spj->is_rejected)
 
                                             <a href="{{ route('operator.spj.edit', $spj) }}"
