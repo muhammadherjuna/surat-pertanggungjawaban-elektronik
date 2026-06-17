@@ -16,19 +16,38 @@ class SpjController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
         $targetLevel = $this->getTargetStatusLevel();
-        $spjs = Spj::where('status_level', $targetLevel)
-                   ->where('is_rejected', false)
-                   ->latest()
-                   ->get();
+        
+        $query = Spj::where('status_level', $targetLevel)
+                   ->where('is_rejected', false);
+
+        // Filter by bidang if user is Kabid (level 1)
+        if ($targetLevel == 1 && $user->bidang_id) {
+            $query->whereHas('user', function($q) use ($user) {
+                $q->where('bidang_id', $user->bidang_id);
+            });
+        }
+
+        $spjs = $query->latest()->get();
 
         return view('approval.spj.index', compact('spjs'));
     }
 
     public function show(Spj $spj)
     {
+        $user = Auth::user();
         $targetLevel = $this->getTargetStatusLevel();
         
+        // Security check: ensure SPJ status level matches user's target level
+        if ($spj->status_level !== $targetLevel || $spj->is_rejected) {
+            abort(404);
+        }
+        
+        // Security check: ensure Kabid can only see SPJs from their own bidang
+        if ($targetLevel == 1 && $user->bidang_id && $spj->user->bidang_id !== $user->bidang_id) {
+            abort(403, 'Anda tidak memiliki akses ke SPJ dari bidang lain.');
+        }
 
         $spj->load(['jenisSpj.dokumenPendukungs', 'rekening', 'dokumens.dokumenPendukung']);
         return view('approval.spj.show', compact('spj', 'targetLevel'));
@@ -36,9 +55,15 @@ class SpjController extends Controller
 
     public function approve(Spj $spj)
     {
+        $user = Auth::user();
         $targetLevel = $this->getTargetStatusLevel();
+        
         if ($spj->status_level !== $targetLevel || $spj->is_rejected) {
             return back()->with('error', 'SPJ ini tidak dapat disetujui saat ini.');
+        }
+
+        if ($targetLevel == 1 && $user->bidang_id && $spj->user->bidang_id !== $user->bidang_id) {
+            return back()->with('error', 'Anda tidak memiliki hak untuk menyetujui SPJ dari bidang lain.');
         }
 
         $spj->update(['status_level' => $spj->status_level + 1]);
@@ -48,10 +73,17 @@ class SpjController extends Controller
 
     public function reject(Request $request, Spj $spj)
     {
+        $user = Auth::user();
         $targetLevel = $this->getTargetStatusLevel();
+        
         if ($spj->status_level !== $targetLevel || $spj->is_rejected) {
             return back()->with('error', 'SPJ ini tidak dapat ditolak saat ini.');
         }
+
+        if ($targetLevel == 1 && $user->bidang_id && $spj->user->bidang_id !== $user->bidang_id) {
+            return back()->with('error', 'Anda tidak memiliki hak untuk menolak SPJ dari bidang lain.');
+        }
+
         $hasComment = false;
         if ($request->has('komentar') && is_array($request->komentar)) {
             foreach ($request->komentar as $komentarText) {
@@ -65,6 +97,7 @@ class SpjController extends Controller
         if (!$hasComment) {
             return back()->with('error', 'Gagal menolak SPJ. Silakan berikan alasan revisi pada minimal salah satu dokumen.');
         }
+
         if ($request->has('komentar') && is_array($request->komentar)) {
             foreach ($request->komentar as $dokumenId => $komentarText) {
                 if (!empty($komentarText)) {
