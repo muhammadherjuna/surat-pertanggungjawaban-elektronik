@@ -77,5 +77,87 @@ class DatabaseSeeder extends Seeder
             'role_id' => $roleOperator->id,
             'bidang_id' => $bidangPI->id,
         ]);
+
+        // Create Master Data: Rekening
+        $rekening1 = \App\Models\Rekening::create([
+            'kode_rekening' => '5.2.02.03.01.0001',
+            'nama_rekening' => 'Belanja Pengadaan Barang/Jasa'
+        ]);
+        $rekening2 = \App\Models\Rekening::create([
+            'kode_rekening' => '5.2.02.03.02.0004',
+            'nama_rekening' => 'Belanja Perjalanan Dinas Biasa'
+        ]);
+
+        // Create Master Data: Jenis SPJ
+        $jenisSpj1 = \App\Models\JenisSpj::create([
+            'nama_jenis' => 'Pengadaan Barang/Jasa',
+            'deskripsi' => 'SPJ untuk pengadaan barang atau jasa operasional.'
+        ]);
+        
+        $jenisSpj2 = \App\Models\JenisSpj::create([
+            'nama_jenis' => 'Perjalanan Dinas',
+            'deskripsi' => 'SPJ untuk kegiatan perjalanan dinas dalam atau luar kota.'
+        ]);
+
+        // Create Master Data: Dokumen Pendukung
+        \App\Models\DokumenPendukung::create([
+            'jenis_spj_id' => $jenisSpj1->id,
+            'nama_dokumen' => 'Surat Perintah Kerja (SPK)',
+            'is_wajib' => true
+        ]);
+        \App\Models\DokumenPendukung::create([
+            'jenis_spj_id' => $jenisSpj1->id,
+            'nama_dokumen' => 'Kwitansi',
+            'is_wajib' => true
+        ]);
+        \App\Models\DokumenPendukung::create([
+            'jenis_spj_id' => $jenisSpj1->id,
+            'nama_dokumen' => 'Faktur Pajak',
+            'is_wajib' => false
+        ]);
+
+        // Create SPJ Data (The ones that went missing)
+        $operator = User::where('username', 'operator_pi')->first();
+        
+        // 1. SPJ Selesai (Sesuai screenshot)
+        $spj1 = \App\Models\Spj::create([
+            'user_id' => $operator->id,
+            'jenis_spj_id' => $jenisSpj1->id,
+            'rekening_id' => $rekening1->id,
+            'deskripsi' => 'Belanja modal pengadaan 3 (tiga) unit komputer PC dan 1 (satu) unit printer untuk menunjang kegiatan pelayanan publik, sesuai dengan Surat Perintah Kerja (SPK) Nomor: 800/123/SPK/2026 tanggal 5 Juni 2026 kepada CV. Maju Bersama.',
+            'nominal' => 37185000,
+            'filter_tipe' => 'TU',
+            'status_level' => 5, // Selesai / Terverifikasi
+            'is_rejected' => false,
+            'submitted_at' => \Carbon\Carbon::create(2026, 6, 14, 15, 26, 0),
+            'created_at' => \Carbon\Carbon::create(2026, 6, 14, 15, 26, 0),
+            'updated_at' => \Carbon\Carbon::now()
+        ]);
+
+        // Seed some fake files so the UI doesn't break when looking for uploaded docs
+        foreach ($jenisSpj1->dokumenPendukungs as $dokumen) {
+            if ($dokumen->is_wajib) {
+                \App\Models\SpjDokumen::create([
+                    'spj_id' => $spj1->id,
+                    'dokumen_pendukung_id' => $dokumen->id,
+                    'file_path' => 'dummy_path.pdf'
+                ]);
+            }
+        }
+
+        // 2. SPJ Draft/Baru (Sebagai contoh antrian)
+        \App\Models\Spj::create([
+            'user_id' => $operator->id,
+            'jenis_spj_id' => $jenisSpj2->id,
+            'rekening_id' => $rekening2->id,
+            'deskripsi' => 'Biaya perjalanan dinas ke Provinsi untuk koordinasi program kerja bulanan.',
+            'nominal' => 2500000,
+            'filter_tipe' => 'LS',
+            'status_level' => 1, // Menunggu Kabid
+            'is_rejected' => false,
+            'submitted_at' => \Carbon\Carbon::now()->subHours(2),
+            'created_at' => \Carbon\Carbon::now()->subHours(2),
+            'updated_at' => \Carbon\Carbon::now()->subHours(2)
+        ]);
     }
 }
