@@ -77,13 +77,23 @@
 
                 <hr>
                 <div class="d-flex justify-content-end" style="gap: 10px;">
-                    <a href="{{ route('operator.spj.show', $spj) }}" class="btn btn-light border"><i class="fas fa-times mr-2"></i> Batal</a>
-                    <button type="submit" id="btnSubmit" class="btn btn-primary"><i class="fas fa-save mr-2"></i> Perbarui SPJ</button>
+                    <a href="{{ route('operator.spj.show', $spj) }}" class="btn btn-light border btn-action"><i class="fas fa-times mr-2"></i> Batal</a>
+                    <button type="submit" id="btnSubmit" class="btn btn-primary btn-action"><i class="fas fa-save mr-2"></i> Perbarui SPJ</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<style>
+    .btn-action {
+        transition: all 0.2s ease-in-out;
+    }
+    .btn-action:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
 @stop
 
 @section('js')
@@ -127,10 +137,20 @@
     filterTipe.addEventListener('change', toggleFilterNo);
     toggleFilterNo();
 
-    document.getElementById('btnSubmit').closest('form').addEventListener('submit', function() {
+    const form = document.getElementById('btnSubmit').closest('form');
+    form.addEventListener('submit', function(e) {
+        if (!form.checkValidity()) {
+            return;
+        }
         var btn = document.getElementById('btnSubmit');
-        btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Memperbarui...';
+        btn.classList.add('disabled');
+        btn.style.pointerEvents = 'none';
+        
+        // Delay disabling to allow form submission to process
+        setTimeout(function() {
+            btn.disabled = true;
+        }, 50);
     });
 </script>
 @stop
