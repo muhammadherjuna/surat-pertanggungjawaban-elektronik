@@ -91,8 +91,8 @@
                                 </td>
 
 
-                                <td class="align-middle text-center">
-                                    <div class="d-flex justify-content-center flex-wrap" style="gap: 8px;">
+                                <td class="align-middle text-left">
+                                    <div class="d-flex justify-content-start flex-wrap" style="gap: 8px;">
 
                                         <a href="{{ route('operator.spj.show', $spj) }}"
                                            class="btn btn-sm btn-outline-info"
