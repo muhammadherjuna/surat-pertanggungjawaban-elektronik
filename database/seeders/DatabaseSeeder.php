@@ -25,54 +25,54 @@ class DatabaseSeeder extends Seeder
 
         // Create Users
         User::create([
-            'name' => 'Super Admin Pusat',
+            'name' => 'Budi Santoso, S.Kom.',
             'username' => 'superadmin',
-            'email' => 'superadmin@kebumen.go.id',
+            'email' => 'budisantoso@kebumen.go.id',
             'password' => Hash::make('password'),
             'role_id' => $roleSuperAdmin->id,
             'bidang_id' => null,
         ]);
 
         User::create([
-            'name' => 'Bendahara Dinas',
+            'name' => 'Rina Amelia, S.E.',
             'username' => 'bendahara',
-            'email' => 'bendahara@kebumen.go.id',
+            'email' => 'rina.bendahara@kebumen.go.id',
             'password' => Hash::make('password'),
             'role_id' => $roleBendahara->id,
             'bidang_id' => null,
         ]);
 
         User::create([
-            'name' => 'Kepala Dinas',
+            'name' => 'Drs. H. Ahmad Fauzi, M.Si.',
             'username' => 'kadin',
-            'email' => 'kadin@kebumen.go.id',
+            'email' => 'ahmad.fauzi@kebumen.go.id',
             'password' => Hash::make('password'),
             'role_id' => $roleKadin->id,
             'bidang_id' => null,
         ]);
 
         User::create([
-            'name' => 'Sekretaris Dinas',
+            'name' => 'Ir. Budi Hartono, M.T.',
             'username' => 'sekdin',
-            'email' => 'sekdin@kebumen.go.id',
+            'email' => 'budi.hartono@kebumen.go.id',
             'password' => Hash::make('password'),
             'role_id' => $roleSekdin->id,
             'bidang_id' => null,
         ]);
 
         User::create([
-            'name' => 'Kabid PI',
+            'name' => 'Siti Rahmawati, S.Kom., M.Eng.',
             'username' => 'kabid_pi',
-            'email' => 'kabid.pi@kebumen.go.id',
+            'email' => 'siti.rahma@kebumen.go.id',
             'password' => Hash::make('password'),
             'role_id' => $roleKabid->id,
             'bidang_id' => $bidangPI->id,
         ]);
 
         User::create([
-            'name' => 'Operator PI',
+            'name' => 'Dwi Cahyono',
             'username' => 'operator_pi',
-            'email' => 'operator.pi@kebumen.go.id',
+            'email' => 'dwi.operator@kebumen.go.id',
             'password' => Hash::make('password'),
             'role_id' => $roleOperator->id,
             'bidang_id' => $bidangPI->id,

@@ -17,9 +17,10 @@
         .qrcode { text-align: center; margin-top: 25px; }
         .qrcode p { font-size: 11px; color: #555; margin-bottom: 8px; }
         .qrcode small { font-size: 9px; color: #888; word-break: break-all; }
-        .signature { margin-top: 40px; text-align: center; }
+        .signature { margin-top: 40px; width: 250px; float: right; text-align: center; }
         .signature .title { font-size: 12px; margin-bottom: 60px; }
         .signature .name { font-size: 13px; font-weight: bold; text-decoration: underline; }
+        .clearfix::after { content: ""; clear: both; display: table; }
     </style>
 </head>
 <body>

@@ -43,30 +43,30 @@
     <div class="row">
         @if($roleLevel == 0)
             {{-- Operator Widgets --}}
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-danger shadow-sm">
                     <div class="inner"><h3>{{ $stats['perlu_tindakan'] }}</h3><p>Perlu Tindakan (Draft/Revisi)</p></div>
                     <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
                     <a href="{{ route('operator.spj.index') }}?status=draft" class="small-box-footer">Lihat di Daftar SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-info shadow-sm">
                     <div class="inner"><h3>{{ $stats['menunggu_verifikasi'] }}</h3><p>Menunggu Persetujuan</p></div>
                     <div class="icon"><i class="fas fa-hourglass-half"></i></div>
                     <a href="{{ route('operator.spj.index') }}?status=proses" class="small-box-footer">Lihat di Daftar SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-success shadow-sm">
                     <div class="inner"><h3>{{ $stats['selesai'] }}</h3><p>SPJ Selesai (Terverifikasi)</p></div>
                     <div class="icon"><i class="fas fa-check-circle"></i></div>
                     <a href="{{ route('operator.spj.index') }}?status=selesai" class="small-box-footer">Lihat di Daftar SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-purple shadow-sm">
-                    <div class="inner"><h3 class="text-nowrap">Rp {{ number_format($stats['total_nominal_selesai'], 0, ',', '.') }}</h3><p>Total Nilai SPJ Selesai</p></div>
+                    <div class="inner"><h3 style="word-wrap: break-word; white-space: normal; font-size: clamp(1.4rem, 4vw, 2.2rem);">Rp {{ number_format($stats['total_nominal_selesai'], 0, ',', '.') }}</h3><p>Total Nilai SPJ Selesai</p></div>
                     <div class="icon"><i class="fas fa-wallet"></i></div>
                     <a href="{{ route('operator.spj.index') }}?status=selesai" class="small-box-footer">Lihat di Daftar SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
@@ -74,30 +74,30 @@
 
         @elseif(in_array($roleLevel, [1, 2, 3]))
             {{-- Approval Widgets --}}
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-warning text-dark shadow-sm">
                     <div class="inner"><h3>{{ $stats['perlu_tindakan'] }}</h3><p>Menunggu Persetujuan Anda</p></div>
                     <div class="icon"><i class="fas fa-clock"></i></div>
                     <a href="{{ route('approval.spj.index') }}" class="small-box-footer text-dark">Lihat di Persetujuan SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-info shadow-sm">
                     <div class="inner"><h3>{{ $stats['menunggu_verifikasi'] }}</h3><p>Telah Anda Setujui (Proses Lanjut)</p></div>
                     <div class="icon"><i class="fas fa-check-double"></i></div>
                     <a href="{{ route('approval.spj.index') }}" class="small-box-footer">Lihat di Persetujuan SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-danger shadow-sm">
-                    <div class="inner"><h3 class="text-nowrap">Rp {{ number_format($stats['selesai'], 0, ',', '.') }}</h3><p>Nominal Menunggu Persetujuan</p></div>
+                    <div class="inner"><h3 style="word-wrap: break-word; white-space: normal; font-size: clamp(1.4rem, 4vw, 2.2rem);">Rp {{ number_format($stats['selesai'], 0, ',', '.') }}</h3><p>Nominal Menunggu Persetujuan</p></div>
                     <div class="icon"><i class="fas fa-file-invoice-dollar"></i></div>
                     <a href="{{ route('approval.spj.index') }}" class="small-box-footer">Lihat di Persetujuan SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-success shadow-sm">
-                    <div class="inner"><h3 class="text-nowrap">Rp {{ number_format($stats['total_nominal_selesai'], 0, ',', '.') }}</h3><p>Nominal Telah Anda Setujui</p></div>
+                    <div class="inner"><h3 style="word-wrap: break-word; white-space: normal; font-size: clamp(1.4rem, 4vw, 2.2rem);">Rp {{ number_format($stats['total_nominal_selesai'], 0, ',', '.') }}</h3><p>Nominal Telah Anda Setujui</p></div>
                     <div class="icon"><i class="fas fa-wallet"></i></div>
                     <a href="{{ route('approval.spj.index') }}" class="small-box-footer">Lihat di Persetujuan SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
@@ -105,30 +105,30 @@
 
         @elseif($roleLevel == 4)
             {{-- Bendahara Widgets --}}
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-warning text-dark shadow-sm">
                     <div class="inner"><h3>{{ $stats['perlu_tindakan'] }}</h3><p>Menunggu Verifikasi Anda</p></div>
                     <div class="icon"><i class="fas fa-clock"></i></div>
                     <a href="{{ route('bendahara.spj.index') }}" class="small-box-footer text-dark">Lihat di Daftar SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-success shadow-sm">
                     <div class="inner"><h3>{{ $stats['menunggu_verifikasi'] }}</h3><p>Selesai / Terverifikasi</p></div>
                     <div class="icon"><i class="fas fa-check-circle"></i></div>
                     <a href="{{ route('bendahara.spj.index') }}" class="small-box-footer">Lihat di Daftar SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-danger shadow-sm">
-                    <div class="inner"><h3 class="text-nowrap">Rp {{ number_format($stats['selesai'], 0, ',', '.') }}</h3><p>Nominal Menunggu Verifikasi</p></div>
+                    <div class="inner"><h3 style="word-wrap: break-word; white-space: normal; font-size: clamp(1.4rem, 4vw, 2.2rem);">Rp {{ number_format($stats['selesai'], 0, ',', '.') }}</h3><p>Nominal Menunggu Verifikasi</p></div>
                     <div class="icon"><i class="fas fa-file-invoice-dollar"></i></div>
                     <a href="{{ route('bendahara.spj.index') }}" class="small-box-footer">Lihat di Daftar SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-success shadow-sm">
-                    <div class="inner"><h3 class="text-nowrap">Rp {{ number_format($stats['total_nominal_selesai'], 0, ',', '.') }}</h3><p>Nominal Selesai Diverifikasi</p></div>
+                    <div class="inner"><h3 style="word-wrap: break-word; white-space: normal; font-size: clamp(1.4rem, 4vw, 2.2rem);">Rp {{ number_format($stats['total_nominal_selesai'], 0, ',', '.') }}</h3><p>Nominal Selesai Diverifikasi</p></div>
                     <div class="icon"><i class="fas fa-wallet"></i></div>
                     <a href="{{ route('bendahara.spj.index') }}" class="small-box-footer">Lihat di Daftar SPJ <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
@@ -136,30 +136,30 @@
 
         @else
             {{-- Super Admin Widgets --}}
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-primary shadow-sm">
                     <div class="inner"><h3>{{ $stats['perlu_tindakan'] }}</h3><p>Total Pengguna</p></div>
                     <div class="icon"><i class="fas fa-users"></i></div>
                     <a href="{{ route('master.users.index') }}" class="small-box-footer">Kelola Pengguna <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-info shadow-sm">
                     <div class="inner"><h3>{{ $stats['menunggu_verifikasi'] }}</h3><p>Total Bidang</p></div>
                     <div class="icon"><i class="fas fa-building"></i></div>
                     <a href="{{ route('master.bidangs.index') }}" class="small-box-footer">Kelola Bidang <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-success shadow-sm">
                     <div class="inner"><h3>{{ $stats['selesai'] }}</h3><p>Total SPJ Terdaftar</p></div>
                     <div class="icon"><i class="fas fa-file-alt"></i></div>
                     <span class="small-box-footer d-block" style="padding: 3px 0;">&nbsp;</span>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
+            <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-purple shadow-sm">
-                    <div class="inner"><h3 class="text-nowrap">Rp {{ number_format($stats['total_nominal_selesai'], 0, ',', '.') }}</h3><p>Total Nilai SPJ</p></div>
+                    <div class="inner"><h3 style="word-wrap: break-word; white-space: normal; font-size: clamp(1.4rem, 4vw, 2.2rem);">Rp {{ number_format($stats['total_nominal_selesai'], 0, ',', '.') }}</h3><p>Total Nilai SPJ</p></div>
                     <div class="icon"><i class="fas fa-wallet"></i></div>
                     <span class="small-box-footer d-block" style="padding: 3px 0;">&nbsp;</span>
                 </div>
