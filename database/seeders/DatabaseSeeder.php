@@ -90,13 +90,11 @@ class DatabaseSeeder extends Seeder
 
         // Create Master Data: Jenis SPJ
         $jenisSpj1 = \App\Models\JenisSpj::create([
-            'nama_jenis' => 'Pengadaan Barang/Jasa',
-            'deskripsi' => 'SPJ untuk pengadaan barang atau jasa operasional.'
+            'nama_jenis' => 'Pengadaan Barang/Jasa'
         ]);
         
         $jenisSpj2 = \App\Models\JenisSpj::create([
-            'nama_jenis' => 'Perjalanan Dinas',
-            'deskripsi' => 'SPJ untuk kegiatan perjalanan dinas dalam atau luar kota.'
+            'nama_jenis' => 'Perjalanan Dinas'
         ]);
 
         // Create Master Data: Dokumen Pendukung
