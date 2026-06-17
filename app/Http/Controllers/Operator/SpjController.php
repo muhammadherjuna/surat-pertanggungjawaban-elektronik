@@ -249,5 +249,34 @@ class SpjController extends Controller
 
         return redirect()->route('operator.spj.index')->with('success', "SPJ berhasil diajukan dan sedang menunggu persetujuan Kabid.");
     }
+
+    public function cancel(Spj $spj)
+    {
+        if ($spj->user_id !== Auth::id()) abort(403);
+        
+        // Only allow cancelling if it's waiting for Kabid (status_level = 1)
+        if ($spj->status_level !== 1) {
+            return back()->with('error', 'Pengajuan tidak dapat ditarik karena sudah diproses ke tahap selanjutnya.');
+        }
+
+        $spj->update([
+            'status_level' => 0,
+            'submitted_at' => null
+        ]);
+
+        return back()->with('success', 'Pengajuan SPJ berhasil dibatalkan dan dikembalikan menjadi Draft.');
+    }
+
+    public function printPdf(Spj $spj)
+    {
+        if ($spj->user_id !== Auth::id()) abort(403);
+        
+        if ($spj->status_level !== 5) {
+            return back()->with('error', 'Hanya SPJ yang telah selesai yang dapat dicetak.');
+        }
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('bendahara.spj.pdf', compact('spj'));
+        return $pdf->stream('SPJ-'.$spj->uuid.'.pdf');
+    }
 }
 
