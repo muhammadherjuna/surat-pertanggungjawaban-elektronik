@@ -178,13 +178,17 @@ class DatabaseSeeder extends Seeder
             $nominal = rand(5, 50) * 100000; // 500k to 5M
             $status = $statuses[$i];
             
+            $tipe = rand(0, 1) ? 'GU' : 'TU';
+            $no = $tipe === 'GU' ? rand(1, 10) : null;
+
             $spjDummy = \App\Models\Spj::create([
                 'user_id' => $operator->id,
                 'jenis_spj_id' => $jenisIds[array_rand($jenisIds)],
                 'rekening_id' => $rekeningIds[array_rand($rekeningIds)],
                 'deskripsi' => $deskripsis[$i],
                 'nominal' => $nominal,
-                'filter_tipe' => 'GU',
+                'filter_tipe' => $tipe,
+                'filter_no' => $no,
                 'status_level' => $status,
                 'is_rejected' => ($status === 0 && rand(0, 1) == 1) ? true : false, // randomly reject some drafts
                 'submitted_at' => $status > 0 ? \Carbon\Carbon::now()->subDays(rand(1, 10)) : null,
