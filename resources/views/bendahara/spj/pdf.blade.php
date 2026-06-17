@@ -4,32 +4,52 @@
     <meta charset="UTF-8">
     <title>Surat Pertanggungjawaban - {{ $spj->id }}</title>
     <style>
-        body { font-family: sans-serif; font-size: 14px; line-height: 1.5; }
-        .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
-        .title { font-size: 18px; font-weight: bold; text-transform: uppercase; }
+        body { font-family: sans-serif; font-size: 13px; line-height: 1.6; color: #333; }
+        .header { text-align: center; border-bottom: 3px double #000; padding-bottom: 12px; margin-bottom: 8px; }
+        .header .instansi { font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .header .dinas { font-size: 14px; font-weight: bold; text-transform: uppercase; }
+        .header .alamat { font-size: 10px; color: #555; margin-top: 4px; line-height: 1.4; }
+        .doc-title { text-align: center; margin: 18px 0 6px; font-size: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: underline; }
+        .pengantar { margin-bottom: 15px; font-size: 12.5px; }
         table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; width: 30%; }
-        .footer { margin-top: 50px; text-align: right; }
-        .qrcode { text-align: center; margin-top: 30px; }
+        th, td { border: 1px solid #444; padding: 7px 10px; text-align: left; font-size: 12.5px; }
+        th { background-color: #f5f5f5; width: 28%; font-weight: bold; }
+        .qrcode { text-align: center; margin-top: 25px; }
+        .qrcode p { font-size: 11px; color: #555; margin-bottom: 8px; }
+        .qrcode small { font-size: 9px; color: #888; word-break: break-all; }
+        .signature { margin-top: 40px; text-align: center; }
+        .signature .title { font-size: 12px; margin-bottom: 60px; }
+        .signature .name { font-size: 13px; font-weight: bold; text-decoration: underline; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="title">Surat Pertanggungjawaban Elektronik</div>
-        <div>Pemerintah Daerah Kota / Kabupaten XXX</div>
+        <div class="instansi">Pemerintah Daerah Kabupaten Kebumen</div>
+        <div class="dinas">Dinas Komunikasi dan Informatika</div>
+        <div class="alamat">
+            Jl. K.H. Hasyim Asy'ari No.6, Panjer, Kec. Kebumen, Kabupaten Kebumen, Jawa Tengah 54312<br>
+            Telp: (0287) 383349
+        </div>
     </div>
 
-    <p>Telah diterima dan diverifikasi Surat Pertanggungjawaban (SPJ) dengan rincian sebagai berikut:</p>
+    <div class="doc-title">Surat Pertanggungjawaban Elektronik</div>
+
+    <p class="pengantar">Telah diterima dan diverifikasi Surat Pertanggungjawaban (SPJ) dengan rincian sebagai berikut:</p>
+
+    @php
+        $bulanIndonesia = [
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+            5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+            9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+        ];
+        $tanggalDiajukan = $spj->submitted_at ?? $spj->created_at;
+        $tanggalFormatted = $tanggalDiajukan->format('d') . ' ' . $bulanIndonesia[(int)$tanggalDiajukan->format('m')] . ' ' . $tanggalDiajukan->format('Y');
+    @endphp
 
     <table>
         <tr>
-            <th>ID / UUID SPJ</th>
-            <td>{{ $spj->id }} / {{ $spj->uuid }}</td>
-        </tr>
-        <tr>
             <th>Tanggal Diajukan</th>
-            <td>{{ $spj->created_at->format('d F Y H:i') }}</td>
+            <td>{{ $tanggalFormatted }}</td>
         </tr>
         <tr>
             <th>Pengaju</th>
@@ -45,7 +65,7 @@
         </tr>
         <tr>
             <th>Tipe / No</th>
-            <td>{{ $spj->filter_tipe }} {{ $spj->filter_no ? ' / ' . $spj->filter_no : '' }}</td>
+            <td>{{ $spj->filter_tipe }}{{ $spj->filter_no ? ' / ' . $spj->filter_no : '' }}</td>
         </tr>
         <tr>
             <th>Rekening</th>
@@ -57,7 +77,7 @@
         </tr>
         <tr>
             <th>Status</th>
-            <td>TERVERIFIKASI (Telah Disetujui Berjenjang & Diview Bendahara)</td>
+            <td><strong>TERVERIFIKASI</strong></td>
         </tr>
     </table>
 
@@ -68,10 +88,9 @@
         <small>{{ url('/public/spj/'.$spj->uuid) }}</small>
     </div>
 
-    <div class="footer">
-        <p>Mengesahkan,<br>Bendahara</p>
-        <br><br><br>
-        <p><strong>{{ Auth::user()->name }}</strong></p>
+    <div class="signature">
+        <div class="title">Mengesahkan,<br>Bendahara Dinas</div>
+        <div class="name">{{ Auth::user()->name }}</div>
     </div>
 </body>
 </html>
