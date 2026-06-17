@@ -126,7 +126,7 @@
     filterTipe.addEventListener('change', toggleFilterNo);
     toggleFilterNo();
 
-    document.querySelector('form').addEventListener('submit', function() {
+    document.getElementById('btnSubmit').closest('form').addEventListener('submit', function() {
         var btn = document.getElementById('btnSubmit');
         btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...';
