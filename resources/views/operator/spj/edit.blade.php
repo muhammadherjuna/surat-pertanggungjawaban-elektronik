@@ -78,7 +78,7 @@
                 <hr>
                 <div class="d-flex justify-content-end" style="gap: 10px;">
                     <a href="{{ route('operator.spj.show', $spj) }}" class="btn btn-light border"><i class="fas fa-times mr-2"></i> Batal</a>
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i> Perbarui SPJ</button>
+                    <button type="submit" id="btnSubmit" class="btn btn-primary"><i class="fas fa-save mr-2"></i> Perbarui SPJ</button>
                 </div>
             </form>
         </div>
@@ -126,5 +126,11 @@
 
     filterTipe.addEventListener('change', toggleFilterNo);
     toggleFilterNo();
+
+    document.querySelector('form').addEventListener('submit', function() {
+        var btn = document.getElementById('btnSubmit');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Memperbarui...';
+    });
 </script>
 @stop
