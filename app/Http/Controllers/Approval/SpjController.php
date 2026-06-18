@@ -19,19 +19,28 @@ class SpjController extends Controller
         $user = Auth::user();
         $targetLevel = $this->getTargetStatusLevel();
         
-        $query = Spj::where('status_level', $targetLevel)
-                   ->where('is_rejected', false);
+        // 1. Pending SPJs (Belum Disetujui)
+        $pendingQuery = Spj::where('status_level', $targetLevel)
+                           ->where('is_rejected', false);
+
+        // 2. Approved SPJs History (Riwayat Persetujuan)
+        $historyQuery = Spj::where('status_level', '>', $targetLevel)
+                           ->where('is_rejected', false);
 
         // Filter by bidang if user is Kabid (level 1)
         if ($targetLevel == 1 && $user->bidang_id) {
-            $query->whereHas('user', function($q) use ($user) {
+            $pendingQuery->whereHas('user', function($q) use ($user) {
+                $q->where('bidang_id', $user->bidang_id);
+            });
+            $historyQuery->whereHas('user', function($q) use ($user) {
                 $q->where('bidang_id', $user->bidang_id);
             });
         }
 
-        $spjs = $query->latest()->get();
+        $pendingSpjs = $pendingQuery->latest('submitted_at')->latest()->get();
+        $historySpjs = $historyQuery->latest('submitted_at')->latest()->get();
 
-        return view('approval.spj.index', compact('spjs'));
+        return view('approval.spj.index', compact('pendingSpjs', 'historySpjs', 'targetLevel'));
     }
 
     public function show(Spj $spj)

@@ -155,7 +155,8 @@
                                                           class="form-control form-control-sm"
                                                           rows="2"
                                                           placeholder="Kosongkan jika dokumen ini sudah benar..."
-                                                          style="font-size: 0.85rem; resize: vertical; border-color: #ced4da;"></textarea>
+                                                          style="font-size: 0.85rem; resize: vertical; border-color: #ced4da;"
+                                                          {{ ($spj->status_level !== $targetLevel || $spj->is_rejected) ? 'disabled' : '' }}></textarea>
                                             @elseif($dp->is_wajib)
                                                 <div class="alert alert-danger mb-0 py-2 px-3" style="font-size: 0.82rem;">
                                                     <i class="fas fa-exclamation-triangle mr-1"></i>
