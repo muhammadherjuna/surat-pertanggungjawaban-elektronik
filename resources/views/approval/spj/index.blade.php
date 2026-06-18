@@ -11,24 +11,6 @@
 @section('content')
 <div class="container-fluid">
 
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show auto-close" role="alert">
-            <i class="fas fa-check-circle mr-2"></i> {{ session('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show auto-close" role="alert">
-            <i class="fas fa-exclamation-triangle mr-2"></i> {{ session('error') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    @endif
-
     <div class="card card-primary card-outline card-outline-tabs shadow-sm">
         <div class="card-header p-0 border-bottom-0 bg-white">
             <ul class="nav nav-tabs" id="spjApprovalTab" role="tablist">
