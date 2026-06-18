@@ -76,8 +76,8 @@
                                             {{ $spj->submitted_at ? $spj->submitted_at->format('d/m/Y H:i') : $spj->created_at->format('d/m/Y H:i') }}
                                         </td>
                                         <td class="align-middle text-center">
-                                            <a href="{{ route('approval.spj.show', $spj) }}" class="btn btn-sm btn-info text-white shadow-sm font-weight-bold btn-action" title="Detail & Evaluasi">
-                                                <i class="fas fa-eye mr-1"></i> Detail
+                                            <a href="{{ route('approval.spj.show', $spj) }}" class="btn btn-sm btn-info btn-action" title="Detail & Evaluasi">
+                                                <i class="fas fa-eye"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -133,8 +133,8 @@
                                             @endif
                                         </td>
                                         <td class="align-middle text-center">
-                                            <a href="{{ route('approval.spj.show', $spj) }}" class="btn btn-sm btn-info text-white shadow-sm font-weight-bold btn-action" title="Lihat Detail">
-                                                <i class="fas fa-eye mr-1"></i> Lihat
+                                            <a href="{{ route('approval.spj.show', $spj) }}" class="btn btn-sm btn-info btn-action" title="Lihat Detail">
+                                                <i class="fas fa-eye"></i>
                                             </a>
                                         </td>
                                     </tr>

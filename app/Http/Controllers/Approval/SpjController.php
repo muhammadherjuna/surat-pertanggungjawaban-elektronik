@@ -48,8 +48,8 @@ class SpjController extends Controller
         $user = Auth::user();
         $targetLevel = $this->getTargetStatusLevel();
         
-        // Security check: ensure SPJ status level matches user's target level
-        if ($spj->status_level !== $targetLevel || $spj->is_rejected) {
+        // Security check: ensure SPJ status level is at or above the user's level
+        if ($spj->status_level < $targetLevel || $spj->is_rejected) {
             abort(404);
         }
         
