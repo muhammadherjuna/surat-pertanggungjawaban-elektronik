@@ -138,166 +138,225 @@
             {{-- Super Admin Widgets --}}
             <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-primary shadow-sm">
-                    <div class="inner"><h3>{{ $stats['perlu_tindakan'] }}</h3><p>Total Pengguna</p></div>
+                    <div class="inner"><h3>{{ $stats['total_users'] }}</h3><p>Total Pengguna</p></div>
                     <div class="icon"><i class="fas fa-users"></i></div>
                     <a href="{{ route('master.users.index') }}" class="small-box-footer">Kelola Pengguna <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-info shadow-sm">
-                    <div class="inner"><h3>{{ $stats['menunggu_verifikasi'] }}</h3><p>Total Bidang</p></div>
+                    <div class="inner"><h3>{{ $stats['total_bidangs'] }}</h3><p>Total Bidang</p></div>
                     <div class="icon"><i class="fas fa-building"></i></div>
                     <a href="{{ route('master.bidangs.index') }}" class="small-box-footer">Kelola Bidang <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-success shadow-sm">
-                    <div class="inner"><h3>{{ $stats['selesai'] }}</h3><p>Total SPJ Terdaftar</p></div>
-                    <div class="icon"><i class="fas fa-file-alt"></i></div>
-                    <span class="small-box-footer d-block" style="padding: 3px 0;">&nbsp;</span>
+                    <div class="inner"><h3>{{ $stats['total_rekenings'] }}</h3><p>Total Rekening</p></div>
+                    <div class="icon"><i class="fas fa-wallet"></i></div>
+                    <a href="{{ route('master.rekenings.index') }}" class="small-box-footer">Kelola Rekening <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-lg-3">
                 <div class="small-box bg-purple shadow-sm">
-                    <div class="inner"><h3 style="word-wrap: break-word; white-space: normal; font-size: clamp(1.4rem, 4vw, 2.2rem);">Rp {{ number_format($stats['total_nominal_selesai'], 0, ',', '.') }}</h3><p>Total Nilai SPJ</p></div>
-                    <div class="icon"><i class="fas fa-wallet"></i></div>
-                    <span class="small-box-footer d-block" style="padding: 3px 0;">&nbsp;</span>
+                    <div class="inner"><h3>{{ $stats['total_jenis_spjs'] }}</h3><p>Total Jenis SPJ</p></div>
+                    <div class="icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                    <a href="{{ route('master.jenis-spjs.index') }}" class="small-box-footer">Kelola Jenis SPJ  <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         @endif
     </div>
 
     {{-- ===================================== --}}
-    {{-- LOG AKTIVITAS SPJ (Monitoring Umum) --}}
+    {{-- LOG AKTIVITAS (Tabel Informasi) --}}
     {{-- ===================================== --}}
     <div class="row mt-2">
         <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 text-muted font-weight-bold">
-                        @if($roleLevel == 0)
-                            <i class="fas fa-history text-primary mr-2"></i> Log Aktivitas SPJ Saya
-                            <small class="text-muted font-weight-normal ml-1">(semua status)</small>
-                        @elseif(in_array($roleLevel, [1, 2, 3]))
-                            <i class="fas fa-stream text-primary mr-2"></i> Log Aktivitas SPJ di Bidang Anda
-                            <small class="text-muted font-weight-normal ml-1">(semua SPJ dalam jangkauan Anda)</small>
-                        @elseif($roleLevel == 4)
-                            <i class="fas fa-stream text-primary mr-2"></i> Log Aktivitas SPJ (Antrian & Terverifikasi)
-                        @else
-                            <i class="fas fa-list text-primary mr-2"></i> Log Aktivitas SPJ Sistem
-                        @endif
-                    </h5>
-                    <div></div>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover align-middle mb-0">
-                            <thead class="table-light text-secondary">
-                                <tr>
-                                    <th style="width: 5%;" class="text-center align-middle">No</th>
-                                    @if($roleLevel != 0)
-                                        <th style="width: 16%;" class="text-left align-middle">Pengaju</th>
-                                    @endif
-                                    <th class="text-left align-middle">Deskripsi</th>
-                                    <th style="width: 16%;" class="text-left align-middle">Nominal</th>
-                                    <th style="width: 14%;" class="text-left align-middle">Status</th>
-                                    <th style="width: 13%;" class="text-left align-middle">Tanggal</th>
-                                    <th style="width: 9%;" class="text-center align-middle">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($latestSpjs as $index => $spj)
+            @if($roleLevel == 5)
+                {{-- LOG AKTIVITAS USER SISTEM (Untuk Super Admin) --}}
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 text-muted font-weight-bold">
+                            <i class="fas fa-user-shield text-primary mr-2"></i> Pengguna Baru Terdaftar
+                            <small class="text-muted font-weight-normal ml-1">(10 pendaftaran terakhir)</small>
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover align-middle mb-0">
+                                <thead class="table-light text-secondary">
                                     <tr>
-                                        <td class="text-center text-muted align-middle">{{ $index + 1 }}</td>
+                                        <th style="width: 5%;" class="text-center align-middle">No</th>
+                                        <th style="width: 25%;" class="text-left align-middle">Nama</th>
+                                        <th style="width: 20%;" class="text-left align-middle">Username</th>
+                                        <th style="width: 20%;" class="text-left align-middle">Peran (Role)</th>
+                                        <th style="width: 20%;" class="text-left align-middle">Bidang</th>
+                                        <th style="width: 10%;" class="text-center align-middle">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($latestUsers as $index => $u)
+                                        <tr>
+                                            <td class="text-center text-muted align-middle">{{ $index + 1 }}</td>
+                                            <td class="align-middle text-left font-weight-bold">{{ $u->name }}</td>
+                                            <td class="align-middle text-left text-wrap">{{ $u->username }}</td>
+                                            <td class="align-middle text-left">
+                                                <span class="badge bg-primary">{{ $u->role->name }}</span>
+                                            </td>
+                                            <td class="align-middle text-left text-muted">
+                                                {{ $u->bidang->nama_bidang ?? '-' }}
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a href="{{ route('master.users.edit', $u) }}" class="btn btn-sm btn-info btn-action" title="Edit Pengguna">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center py-5 text-muted">
+                                                <i class="fas fa-info-circle fa-2x mb-2 d-block"></i>
+                                                Belum ada pengguna terdaftar.
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white text-right py-2">
+                        <a href="{{ route('master.users.index') }}" class="text-primary small font-weight-bold">
+                            Kelola Semua Pengguna <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            @else
+                {{-- LOG AKTIVITAS SPJ (Monitoring Umum) --}}
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 text-muted font-weight-bold">
+                            @if($roleLevel == 0)
+                                <i class="fas fa-history text-primary mr-2"></i> Log Aktivitas SPJ Saya
+                                <small class="text-muted font-weight-normal ml-1">(semua status)</small>
+                            @elseif(in_array($roleLevel, [1, 2, 3]))
+                                <i class="fas fa-stream text-primary mr-2"></i> Log Aktivitas SPJ di Bidang Anda
+                                <small class="text-muted font-weight-normal ml-1">(semua SPJ dalam jangkauan Anda)</small>
+                            @elseif($roleLevel == 4)
+                                <i class="fas fa-stream text-primary mr-2"></i> Log Aktivitas SPJ (Antrian & Terverifikasi)
+                            @endif
+                        </h5>
+                        <div></div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover align-middle mb-0">
+                                <thead class="table-light text-secondary">
+                                    <tr>
+                                        <th style="width: 5%;" class="text-center align-middle">No</th>
                                         @if($roleLevel != 0)
-                                            <td class="align-middle text-left font-weight-bold">{{ $spj->user->name }}</td>
+                                            <th style="width: 16%;" class="text-left align-middle">Pengaju</th>
                                         @endif
-                                        <td class="align-middle text-left text-wrap">{{ $spj->deskripsi }}</td>
-                                        <td class="align-middle text-left font-monospace text-nowrap">
-                                            Rp {{ number_format($spj->nominal, 0, ',', '.') }}
-                                        </td>
-                                        <td class="align-middle text-left">
-                                            @if($spj->is_rejected)
-                                                <span class="badge bg-danger"><i class="fas fa-redo mr-1"></i>Perlu Revisi</span>
-                                            @elseif($spj->status_level == 0)
-                                                <span class="badge bg-secondary"><i class="fas fa-file-alt mr-1"></i>Draft</span>
-                                            @elseif($spj->status_level == 1)
-                                                @if($roleLevel == 1)
-                                                    {{-- Dari sudut pandang Kabid: ini adalah ajuan masuk dari Operator --}}
-                                                    <span class="badge bg-warning text-dark"><i class="fas fa-inbox mr-1"></i>Ajuan Operator</span>
-                                                @else
-                                                    <span class="badge bg-warning text-dark"><i class="fas fa-clock mr-1"></i>Menunggu Kabid</span>
-                                                @endif
-                                            @elseif($spj->status_level == 2)
-                                                @if($roleLevel == 2)
-                                                    {{-- Dari sudut pandang Sekdin: ini adalah ajuan yang sudah disetujui Kabid, masuk ke meja Sekdin --}}
-                                                    <span class="badge bg-warning text-dark"><i class="fas fa-inbox mr-1"></i>Ajuan dari Kabid</span>
-                                                @else
-                                                    <span class="badge bg-primary"><i class="fas fa-check mr-1"></i>Disetujui Kabid</span>
-                                                @endif
-                                            @elseif($spj->status_level == 3)
-                                                <span class="badge bg-warning text-dark"><i class="fas fa-check-double mr-1"></i>Disetujui Sekdin</span>
-                                            @elseif($spj->status_level == 4)
-                                                @if($roleLevel == 4)
-                                                    <span class="badge bg-info text-dark"><i class="fas fa-clock mr-1"></i>Menunggu Verifikasi</span>
-                                                @else
-                                                    <span class="badge bg-success"><i class="fas fa-check-double mr-1"></i>Disetujui Kadin</span>
-                                                @endif
-                                            @elseif($spj->status_level == 5)
-                                                <span class="badge bg-success"><i class="fas fa-check-circle mr-1"></i>Terverifikasi</span>
+                                        <th class="text-left align-middle">Deskripsi</th>
+                                        <th style="width: 16%;" class="text-left align-middle">Nominal</th>
+                                        <th style="width: 14%;" class="text-left align-middle">Status</th>
+                                        <th style="width: 13%;" class="text-left align-middle">Tanggal</th>
+                                        <th style="width: 9%;" class="text-center align-middle">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($latestSpjs as $index => $spj)
+                                        <tr>
+                                            <td class="text-center text-muted align-middle">{{ $index + 1 }}</td>
+                                            @if($roleLevel != 0)
+                                                <td class="align-middle text-left font-weight-bold">{{ $spj->user->name }}</td>
                                             @endif
-                                        </td>
-                                        <td class="align-middle text-left text-nowrap text-muted" style="font-size: 0.85rem;">
-                                            {{ $spj->submitted_at ? $spj->submitted_at->format('d/m/Y H:i') : $spj->created_at->format('d/m/Y H:i') }}
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            @if($roleLevel == 0)
-                                                <a href="{{ route('operator.spj.show', $spj) }}" class="btn btn-sm btn-info text-white shadow-sm font-weight-bold" title="Detail">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            @elseif(in_array($roleLevel, [1, 2, 3]))
-                                                <a href="{{ route('approval.spj.show', $spj) }}" class="btn btn-sm btn-info text-white shadow-sm font-weight-bold" title="Detail">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            @elseif($roleLevel == 4)
-                                                @if($spj->status_level >= 3)
-                                                    <a href="{{ route('bendahara.spj.show', $spj) }}" class="btn btn-sm btn-info text-white shadow-sm font-weight-bold" title="Detail">
+                                            <td class="align-middle text-left text-wrap">{{ $spj->deskripsi }}</td>
+                                            <td class="align-middle text-left font-monospace text-nowrap">
+                                                Rp {{ number_format($spj->nominal, 0, ',', '.') }}
+                                            </td>
+                                            <td class="align-middle text-left">
+                                                @if($spj->is_rejected)
+                                                    <span class="badge bg-danger"><i class="fas fa-redo mr-1"></i>Perlu Revisi</span>
+                                                @elseif($spj->status_level == 0)
+                                                    <span class="badge bg-secondary"><i class="fas fa-file-alt mr-1"></i>Draft</span>
+                                                @elseif($spj->status_level == 1)
+                                                    @if($roleLevel == 1)
+                                                        {{-- Dari sudut pandang Kabid: ini adalah ajuan masuk dari Operator --}}
+                                                        <span class="badge bg-warning text-dark"><i class="fas fa-inbox mr-1"></i>Ajuan Operator</span>
+                                                    @else
+                                                        <span class="badge bg-warning text-dark"><i class="fas fa-clock mr-1"></i>Menunggu Kabid</span>
+                                                    @endif
+                                                @elseif($spj->status_level == 2)
+                                                    @if($roleLevel == 2)
+                                                        {{-- Dari sudut pandang Sekdin: ini adalah ajuan yang sudah disetujui Kabid, masuk ke meja Sekdin --}}
+                                                        <span class="badge bg-warning text-dark"><i class="fas fa-inbox mr-1"></i>Ajuan dari Kabid</span>
+                                                    @else
+                                                        <span class="badge bg-primary"><i class="fas fa-check mr-1"></i>Disetujui Kabid</span>
+                                                    @endif
+                                                @elseif($spj->status_level == 3)
+                                                    <span class="badge bg-warning text-dark"><i class="fas fa-check-double mr-1"></i>Disetujui Sekdin</span>
+                                                @elseif($spj->status_level == 4)
+                                                    @if($roleLevel == 4)
+                                                        <span class="badge bg-info text-dark"><i class="fas fa-clock mr-1"></i>Menunggu Verifikasi</span>
+                                                    @else
+                                                        <span class="badge bg-success"><i class="fas fa-check-double mr-1"></i>Disetujui Kadin</span>
+                                                    @endif
+                                                @elseif($spj->status_level == 5)
+                                                    <span class="badge bg-success"><i class="fas fa-check-circle mr-1"></i>Terverifikasi</span>
+                                                @endif
+                                            </td>
+                                            <td class="align-middle text-left text-nowrap text-muted" style="font-size: 0.85rem;">
+                                                {{ $spj->submitted_at ? $spj->submitted_at->format('d/m/Y H:i') : $spj->created_at->format('d/m/Y H:i') }}
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                @if($roleLevel == 0)
+                                                    <a href="{{ route('operator.spj.show', $spj) }}" class="btn btn-sm btn-info text-white shadow-sm font-weight-bold" title="Detail">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
+                                                @elseif(in_array($roleLevel, [1, 2, 3]))
+                                                    <a href="{{ route('approval.spj.show', $spj) }}" class="btn btn-sm btn-info text-white shadow-sm font-weight-bold" title="Detail">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                @elseif($roleLevel == 4)
+                                                    @if($spj->status_level >= 3)
+                                                        <a href="{{ route('bendahara.spj.show', $spj) }}" class="btn btn-sm btn-info text-white shadow-sm font-weight-bold" title="Detail">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="{{ $roleLevel != 0 ? 7 : 6 }}" class="text-center py-5 text-muted">
-                                            <i class="fas fa-info-circle fa-2x mb-2 d-block"></i>
-                                            Belum ada aktivitas SPJ yang tercatat.
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="{{ $roleLevel != 0 ? 7 : 6 }}" class="text-center py-5 text-muted">
+                                                <i class="fas fa-info-circle fa-2x mb-2 d-block"></i>
+                                                Belum ada aktivitas SPJ yang tercatat.
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                    @if($roleLevel == 0)
+                        <div class="card-footer bg-white text-right py-2">
+                            <a href="{{ route('operator.spj.index') }}" class="text-primary small font-weight-bold">
+                                Lihat Semua Daftar SPJ Saya <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    @elseif(in_array($roleLevel, [1, 2, 3]))
+                        <div class="card-footer bg-white py-2">
+                            <span class="text-muted small"><i class="fas fa-info-circle mr-1"></i>Tabel ini menampilkan log monitoring umum. Untuk tindakan persetujuan, gunakan menu <strong>Persetujuan SPJ</strong> di sidebar.</span>
+                        </div>
+                    @elseif($roleLevel == 4)
+                        <div class="card-footer bg-white text-right py-2">
+                            <a href="{{ route('bendahara.spj.index') }}" class="text-primary small font-weight-bold">
+                                Lihat Semua Daftar SPJ <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    @endif
                 </div>
-                @if($roleLevel == 0)
-                    <div class="card-footer bg-white text-right py-2">
-                        <a href="{{ route('operator.spj.index') }}" class="text-primary small font-weight-bold">
-                            Lihat Semua Daftar SPJ Saya <i class="fas fa-arrow-right ml-1"></i>
-                        </a>
-                    </div>
-                @elseif(in_array($roleLevel, [1, 2, 3]))
-                    <div class="card-footer bg-white py-2">
-                        <span class="text-muted small"><i class="fas fa-info-circle mr-1"></i>Tabel ini menampilkan log monitoring umum. Untuk tindakan persetujuan, gunakan menu <strong>Persetujuan SPJ</strong> di sidebar.</span>
-                    </div>
-                @elseif($roleLevel == 4)
-                    <div class="card-footer bg-white text-right py-2">
-                        <a href="{{ route('bendahara.spj.index') }}" class="text-primary small font-weight-bold">
-                            Lihat Semua Daftar SPJ <i class="fas fa-arrow-right ml-1"></i>
-                        </a>
-                    </div>
-                @endif
-            </div>
+            @endif
         </div>
     </div>
 </div>

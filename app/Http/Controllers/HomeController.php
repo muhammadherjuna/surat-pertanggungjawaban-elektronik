@@ -91,14 +91,16 @@ class HomeController extends Controller
             $latestSpjs = $allVisibleQuery->latest('submitted_at')->latest()->take(10)->get();
             
         } else {
-            $stats['perlu_tindakan'] = \App\Models\User::count();
-            $stats['menunggu_verifikasi'] = \App\Models\Bidang::count();
-            $stats['selesai'] = Spj::count();
-            $stats['total_nominal_selesai'] = Spj::sum('nominal');
+            // Super Admin Statistics (Technical & Master Data)
+            $stats['total_users'] = \App\Models\User::count();
+            $stats['total_bidangs'] = \App\Models\Bidang::count();
+            $stats['total_rekenings'] = \App\Models\Rekening::count();
+            $stats['total_jenis_spjs'] = \App\Models\JenisSpj::count();
             
-            $latestSpjs = Spj::latest()->take(10)->get();
+            $latestUsers = \App\Models\User::with(['role', 'bidang'])->latest()->take(10)->get();
+            $latestSpjs = collect();
         }
 
-        return view('home', compact('stats', 'latestSpjs', 'roleLevel'));
+        return view('home', compact('stats', 'latestSpjs', 'latestUsers', 'roleLevel'));
     }
 }
